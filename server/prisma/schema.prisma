@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,4 +5,108 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  password   String
+  name       String
+  phone      String   @unique
+  role       Role     
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  // Relations
+  vehicles   Vehicle[] 
+  bookings   Booking[] 
+  reviews    Review[]  
+}
+
+model Vehicle {
+  id          Int      @id @default(autoincrement())
+  ownerId     Int      
+  name        String   
+  type        String   
+  seater      Int      
+  transmission Transmission 
+  pricePerDay Float
+  available   Boolean  @default(true)
+  driverAvailable Boolean @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  // Availability slots
+  availabilitySlots AvailabilitySlot[]
+  // Relations
+  owner        User      @relation(fields: [ownerId], references: [id])
+  bookings     Booking[] 
+  reviews      Review[]  
+  documents    Document[] 
+}
+
+model AvailabilitySlot {
+  id        Int      @id @default(autoincrement())
+  vehicleId Int      
+  dayOfWeek String   
+  startTime String   
+  endTime   String   
+  // Relation to Vehicle
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id])
+}
+
+model Booking {
+  id          Int      @id @default(autoincrement())
+  renterId    Int      
+  vehicleId   Int      
+  startDate   DateTime
+  endDate     DateTime
+  totalPrice  Float
+  driverRequired Boolean @default(false)
+  paymentId   Int?     @unique 
+  // Relations
+  renter      User     @relation(fields: [renterId], references: [id])
+  vehicle     Vehicle  @relation(fields: [vehicleId], references: [id])
+  payment     Payment?
+}
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  bookingId Int      @unique
+  amount    Float
+  method    String   
+  status    String   
+  timestamp DateTime @default(now())
+  // Relation to Booking
+  booking   Booking  @relation(fields: [bookingId], references: [id])
+}
+
+model Document {
+  id        Int      @id @default(autoincrement())
+  vehicleId Int      
+  type      String   
+  fileUrl   String   
+  // Relation to Vehicle
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  userId    Int      
+  vehicleId Int      
+  rating    Int      
+  comment   String?
+  createdAt DateTime @default(now())
+  // Relations
+  user      User     @relation(fields: [userId], references: [id])
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id])
+}
+
+enum Role {
+  USER
+  OWNER
+  ADMIN
+}
+
+enum Transmission {
+  MANUAL
+  AUTOMATIC
 }
