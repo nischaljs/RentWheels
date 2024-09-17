@@ -9,13 +9,11 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Routes
-const userRoutes = require('./routes/userRoutes');
-const vehicleRoutes = require('./routes/vehicleRoutes');
+const mainRouter = require('./routes/index');
 const errorHandler = require('./middlewares/errorHandler');
+app.use('/api/v1',mainRouter);
 
-//  routes
-app.use('/api/users', userRoutes); 
-app.use('/api/vehicles', vehicleRoutes); 
+
 app.use(errorHandler);
 
 module.exports = app;
