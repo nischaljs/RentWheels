@@ -5,7 +5,7 @@ const CustomError = require('../utils/customError');
 
 // Register a new user
 exports.register = async (userData) => {
-    const { email, password, fullName, phone, role } = userData;
+    const { email, password, fullName, phone, role } = userData ;
 
     const existingUser = await prisma.user.findUnique({
         where: {

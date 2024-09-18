@@ -1,9 +1,13 @@
+const { createUserSchema } = require('../schemas/userSchemas');
 const userService = require('../services/userService'); 
 
 // Register a new user
 exports.registerUser = async (req, res) => {
     try {
-        const user = await userService.register(req.body);
+        const validatedData = createUserSchema.safeParse(req.body);
+
+        const user = await userService.register(validatedData);
+        
         res.status(201).json({ success: true, data: user });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
