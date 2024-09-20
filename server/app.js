@@ -7,11 +7,12 @@ const app = express();
 // Middleware 
 app.use(cors());
 app.use(bodyParser.json());
-app.use('/uploads', express.static('public'));
+app.use(express.json());
+app.use(express.static('public'));
 
 // Routes
 const mainRouter = require('./routes/index');
-const errorHandler = require('./middlewares/errorHandler');
+const {errorHandler} = require('./middlewares/errorHandler');
 app.use('/api/v1',mainRouter);
 
 

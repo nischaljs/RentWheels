@@ -1,6 +1,7 @@
 # Node modules
 /node_modules/
 *node_modules
+./src/public
 
 # Build output
 /build/
@@ -51,3 +52,4 @@ Thumbs.db
 
 # Local env files
 .env
+server/public/*

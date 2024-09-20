@@ -1,65 +1,64 @@
-const { createUserSchema } = require('../schemas/userSchemas');
-const authService = require('../services/authService'); 
+const { createUserSchema, loginUserSchema, updateUserSchema } = require('../schemas/userSchemas');
+const authService = require('../services/authService');
 const userService = require('../services/userService');
+const { handleErrors } = require('../middlewares/errorHandler');
+const validateSchema = require('../utils/validateSchema');
 
-// Register a new user
+
+
 exports.registerUser = async (req, res) => {
-    try {
-        createUserSchema.safeParse(req.body);
-        const token = await authService.register(req.body);
-        
-        res.status(201).json({ success: true, data: token });
-    } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
-    }
+  try {
+    const validatedData = validateSchema(createUserSchema, req.body);
+    const token = await authService.register(validatedData);
+    res.status(201).json({ success: true, data: token });
+  } catch (error) {
+    handleErrors(res, error);
+  }
 };
 
-// Login a user
 exports.loginUser = async (req, res) => {
-    try {
-        const token = await authService.login(req.body);
-        res.status(200).json({ success: true, token });
-    } catch (error) {
-        res.status(401).json({ success: false, message: error.message });
-    }
+  try {
+    const validatedData = validateSchema(loginUserSchema, req.body);
+    const token = await authService.login(validatedData);
+    res.status(200).json({ success: true, data: token });
+  } catch (error) {
+    handleErrors(res, error);
+  }
 };
 
-// Get a user's profile
 exports.getUserProfile = async (req, res) => {
-    try {
-        const user = await userService.getProfile(req.user.id);
-        res.status(200).json({ success: true, data: user });
-    } catch (error) {
-        res.status(404).json({ success: false, message: error.message });
-    }
+  try {
+    const user = await userService.getProfile(req.user.id);
+    res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    handleErrors(res, error);
+  }
 };
 
-// Update a user's profile
 exports.updateUserProfile = async (req, res) => {
-    try {
-        const updatedUser = await userService.updateProfile(req.user.id, req.body);
-        res.status(200).json({ success: true, data: updatedUser });
-    } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
-    }
+  try {
+    const validatedData = validateSchema(updateUserSchema, req.body);
+    const updatedUser = await userService.updateProfile(req.user.id, validatedData);
+    res.status(200).json({ success: true, data: updatedUser });
+  } catch (error) {
+    handleErrors(res, error);
+  }
 };
 
-// Delete a user account
 exports.deleteUserAccount = async (req, res) => {
-    try {
-        await userService.deleteUser(req.user.id);
-        res.status(200).json({ success: true, message: 'User account deleted' });
-    } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
-    }
+  try {
+    await userService.deleteUser(req.user.id);
+    res.status(200).json({ success: true, message: 'User account deleted' });
+  } catch (error) {
+    handleErrors(res, error);
+  }
 };
 
-// Get all users (admin functionality)
 exports.getAllUsers = async (req, res) => {
-    try {
-        const users = await userService.getAllUsers();
-        res.status(200).json({ success: true, data: users });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
+  try {
+    const users = await userService.getAllUsers();
+    res.status(200).json({ success: true, data: users });
+  } catch (error) {
+    handleErrors(res, error);
+  }
 };

@@ -11,9 +11,13 @@ const createUserSchema = z.object({
   }),
   fullName: z.string(),
   phone: z.string().optional(),
-  role: z.enum(['USER', 'OWNER']), 
+  role: z.enum(['USER', 'OWNER']),
 });
 
+const loginUserSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8, 'Password must be at least 8 characters long')
+})
 const updateUserSchema = z.object({
   email: z.string().email().optional(),
   fullName: z.string().optional(),
@@ -23,4 +27,5 @@ const updateUserSchema = z.object({
 module.exports = {
   createUserSchema,
   updateUserSchema,
+  loginUserSchema
 };

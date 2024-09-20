@@ -3,13 +3,14 @@ const prisma = new PrismaClient();
 
 // Service to add a new vehicle
 exports.addVehicle = async (vehicleData, imagePath, ownerId) => {
-    const { name, type, seater, transmission, pricePerDay, driverAvailable } = vehicleData;
+    const { name, type, seater, transmission, pricePerDay, driverAvailable, available } = vehicleData;
     return await prisma.vehicle.create({
         data: {
           name,
           type,
           seater: parseInt(seater),
           transmission,
+          available,
           pricePerDay: parseFloat(pricePerDay),
           driverAvailable: driverAvailable === 'true',
           image: imagePath, 
