@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 // Route for user registration
 router.post('/register', userController.registerUser);
@@ -9,13 +10,13 @@ router.post('/register', userController.registerUser);
 router.post('/login', userController.loginUser);
 
 // Route to get user profile details
-router.get('/profile', userController.getUserProfile);
+router.get('/profile',authMiddleware, userController.getUserProfile);
 
 // Route to update user profile details
-router.put('/profile', userController.updateUserProfile);
+router.put('/profile',authMiddleware, userController.updateUserProfile);
 
 // Route to delete a user account
-router.delete('/profile', userController.deleteUserAccount);
+router.delete('/profile',authMiddleware, userController.deleteUserAccount);
 
 // Route to get a list of all users (admin functionality)
 router.get('/', userController.getAllUsers);

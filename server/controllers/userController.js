@@ -1,14 +1,14 @@
 const { createUserSchema } = require('../schemas/userSchemas');
-const userService = require('../services/userService'); 
+const authService = require('../services/authService'); 
+const userService = require('../services/userService');
 
 // Register a new user
 exports.registerUser = async (req, res) => {
     try {
-        const validatedData = createUserSchema.safeParse(req.body);
-
-        const user = await userService.register(validatedData);
+        createUserSchema.safeParse(req.body);
+        const token = await authService.register(req.body);
         
-        res.status(201).json({ success: true, data: user });
+        res.status(201).json({ success: true, data: token });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
@@ -17,7 +17,7 @@ exports.registerUser = async (req, res) => {
 // Login a user
 exports.loginUser = async (req, res) => {
     try {
-        const token = await userService.login(req.body);
+        const token = await authService.login(req.body);
         res.status(200).json({ success: true, token });
     } catch (error) {
         res.status(401).json({ success: false, message: error.message });

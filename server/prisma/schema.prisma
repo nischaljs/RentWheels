@@ -8,96 +8,101 @@ datasource db {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  email      String   @unique
-  password   String
-  fullName       String
-  phone      String   @unique
-  role       Role     
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  // Relations
-  vehicles   Vehicle[] 
-  bookings   Booking[] 
-  reviews    Review[]  
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  phone     String    @unique
+  role      Role
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  fullName  String
+  bookings  Booking[]
+  reviews   Review[]
+  vehicles  Vehicle[]
 }
 
 model Vehicle {
-  id          Int      @id @default(autoincrement())
-  ownerId     Int      
-  name        String   
-  type        String   
-  seater      Int      
-  transmission Transmission 
-  pricePerDay Float
-  available   Boolean  @default(true)
-  driverAvailable Boolean @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  // Availability slots
+  id                Int                @id @default(autoincrement())
+  ownerId           Int
+  name              String
+  type              String
+  seater            Int
+  transmission      Transmission
+  pricePerDay       Float
+  available         Boolean            @default(true)
+  driverAvailable   Boolean            @default(false)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  image             String?
   availabilitySlots AvailabilitySlot[]
-  // Relations
-  owner        User      @relation(fields: [ownerId], references: [id])
-  bookings     Booking[] 
-  reviews      Review[]  
-  documents    Document[] 
+  bookings          Booking[]
+  documents         Document[]
+  reviews           Review[]
+  owner             User               @relation(fields: [ownerId], references: [id])
+
+  @@index([ownerId], map: "Vehicle_ownerId_fkey")
 }
 
 model AvailabilitySlot {
-  id        Int      @id @default(autoincrement())
-  vehicleId Int      
-  dayOfWeek String   
-  startTime String   
-  endTime   String   
-  // Relation to Vehicle
-  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id])
+  id        Int     @id @default(autoincrement())
+  vehicleId Int
+  dayOfWeek String
+  startTime String
+  endTime   String
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+
+  @@index([vehicleId], map: "AvailabilitySlot_vehicleId_fkey")
 }
 
 model Booking {
-  id          Int      @id @default(autoincrement())
-  renterId    Int      
-  vehicleId   Int      
-  startDate   DateTime
-  endDate     DateTime
-  totalPrice  Float
-  driverRequired Boolean @default(false)
-  paymentId   Int?     @unique 
-  // Relations
-  renter      User     @relation(fields: [renterId], references: [id])
-  vehicle     Vehicle  @relation(fields: [vehicleId], references: [id])
-  payment     Payment?
+  id             Int      @id @default(autoincrement())
+  renterId       Int
+  vehicleId      Int
+  startDate      DateTime
+  endDate        DateTime
+  totalPrice     Float
+  driverRequired Boolean  @default(false)
+  paymentId      Int?     @unique
+  renter         User     @relation(fields: [renterId], references: [id])
+  vehicle        Vehicle  @relation(fields: [vehicleId], references: [id])
+  payment        Payment?
+
+  @@index([renterId], map: "Booking_renterId_fkey")
+  @@index([vehicleId], map: "Booking_vehicleId_fkey")
 }
 
 model Payment {
   id        Int      @id @default(autoincrement())
   bookingId Int      @unique
   amount    Float
-  method    String   
-  status    String   
+  method    String
+  status    String
   timestamp DateTime @default(now())
-  // Relation to Booking
   booking   Booking  @relation(fields: [bookingId], references: [id])
 }
 
 model Document {
-  id        Int      @id @default(autoincrement())
-  vehicleId Int      
-  type      String   
-  fileUrl   String   
-  // Relation to Vehicle
-  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id])
+  id        Int     @id @default(autoincrement())
+  vehicleId Int
+  type      String
+  fileUrl   String
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+
+  @@index([vehicleId], map: "Document_vehicleId_fkey")
 }
 
 model Review {
   id        Int      @id @default(autoincrement())
-  userId    Int      
-  vehicleId Int      
-  rating    Int      
+  userId    Int
+  vehicleId Int
+  rating    Int
   comment   String?
   createdAt DateTime @default(now())
-  // Relations
   user      User     @relation(fields: [userId], references: [id])
   vehicle   Vehicle  @relation(fields: [vehicleId], references: [id])
+
+  @@index([userId], map: "Review_userId_fkey")
+  @@index([vehicleId], map: "Review_vehicleId_fkey")
 }
 
 enum Role {
