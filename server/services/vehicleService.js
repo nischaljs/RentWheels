@@ -19,6 +19,18 @@ exports.addVehicle = async (vehicleData, imagePath, ownerId) => {
     });
 };
 
+//get individual vehicle detail
+exports.getVehicle = async (vehicleId) => {
+    return await prisma.vehicle.findUnique({
+        where: {
+            id: vehicleId
+        },
+        include: {
+            owner: true,
+            availability: true
+        }
+    });
+}
 
 exports.searchVehicles = async (query) => {
     return await prisma.vehicle.findMany({
@@ -64,6 +76,39 @@ exports.deleteVehicle = async (vehicleId) => {
     return await prisma.vehicle.delete({
         where: {
             id: vehicleId
+        }
+    });
+};
+
+
+exports.updateVehicleAvailability = async (vehicleId) => {
+    return await prisma.vehicle.update({
+        where: {
+            id: vehicleId
+        },
+        data: {
+            availability: {
+                updateMany: {
+                    where: {
+                        day: new Date().getDay()
+                    },
+                    data: {
+                        available: false
+                    }
+                }
+            }
+        }
+    });
+};
+
+//get all bookings of a vehicle 
+exports.getVehicleWithBookings = async (vehicleId) => {
+    return await prisma.vehicle.findUnique({
+        where: {
+            id: vehicleId
+        },
+        include: {
+            bookings: true 
         }
     });
 };

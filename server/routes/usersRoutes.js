@@ -10,15 +10,15 @@ router.post('/register', userController.registerUser);
 router.post('/login', userController.loginUser);
 
 // Route to get user profile details
-router.get('/profile',authMiddleware, userController.getUserProfile);
+router.get('/profile',authMiddleware("USER"), userController.getUserProfile);
 
 // Route to update user profile details
-router.put('/profile',authMiddleware, userController.updateUserProfile);
+router.put('/profile',authMiddleware("USER"), userController.updateUserProfile);
 
 // Route to delete a user account
-router.delete('/profile',authMiddleware, userController.deleteUserAccount);
+router.delete('/profile',authMiddleware("USER"), userController.deleteUserAccount);
 
 // Route to get a list of all users (admin functionality)
-router.get('/', userController.getAllUsers);
+router.get('/',authMiddleware("ADMIN"), userController.getAllUsers);
 
 module.exports = router;

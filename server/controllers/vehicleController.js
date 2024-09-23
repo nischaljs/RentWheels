@@ -25,6 +25,18 @@ exports.addVehicle = async (req, res) => {
   }
 };
 
+exports.getVehicle = async (req, res) => {
+  try {
+    const vehicles = await vehicleService.getVehicle(req.params.id);
+    res.status(200).json({
+      success: true,
+      data: vehicles
+    });
+  } catch (error) {
+    handleErrors(res, error);
+  }
+};
+
 exports.searchVehicles = async (req, res) => {
   try {
     const vehicles = await vehicleService.searchVehicles(req.query);
@@ -64,3 +76,32 @@ exports.deleteVehicle = async (req, res) => {
     handleErrors(res, error);
   }
 };
+
+exports.updateVehicleAvailability = async (req, res) => {
+  try {
+    const vehicleId = req.params.id;
+    const updatedVehicle = await vehicleService.updateVehicleAvailability(vehicleId);
+    res.status(200).json({
+      success: true,
+      message: 'Vehicle availability updated successfully',
+      data: updatedVehicle
+    });
+  } catch (error) {
+    handleErrors(res, error);
+  }
+}
+
+
+//get all bookings of a vehicle
+exports.getVehicleBookings = async (req, res) => {
+  try {
+    const vehicleId = req.params.id;
+    const bookings = await vehicleService.getVehicleBookings(vehicleId);
+    res.status(200).json({
+      success: true,
+      data: bookings
+    });
+  } catch (error) {
+    handleErrors(res, error);
+  }
+}

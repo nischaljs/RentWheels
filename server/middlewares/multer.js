@@ -6,7 +6,11 @@ const path = require('path');
 // Set storage engine
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/'); 
+    const userId = req.body.userId;
+    const type = req.body.type;
+
+    const dir = path.join('public', type, userId);
+    cb(null, dir); 
   },
   filename: function (req, file, cb) {
     cb(null, `${Date.now()}-${file.originalname}`); 
@@ -23,7 +27,7 @@ const fileFilter = (req, file, cb) => {
     return cb(null, true);
   } else {
     cb(new Error('Only images are allowed'));
-  }
+  }public
 };
 
 

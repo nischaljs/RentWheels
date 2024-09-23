@@ -66,6 +66,7 @@ model Booking {
   renter         User     @relation(fields: [renterId], references: [id])
   vehicle        Vehicle  @relation(fields: [vehicleId], references: [id])
   payment        Payment?
+  status         BookingStatus  @default(CONFIRMED)
 
   @@index([renterId], map: "Booking_renterId_fkey")
   @@index([vehicleId], map: "Booking_vehicleId_fkey")
@@ -114,4 +115,12 @@ enum Role {
 enum Transmission {
   MANUAL
   AUTOMATIC
+}
+
+enum BookingStatus{
+  CANCELLED
+  PENDING
+  CONFIRMED
+  COMPLETED
+  EXPIRED
 }
