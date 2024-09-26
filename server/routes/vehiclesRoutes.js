@@ -4,6 +4,8 @@ const vehicleController = require('../controllers/vehicleController');
 const authMiddleware = require('../middlewares/authMiddleware');
 const upload = require('../middlewares/multer');
 const paginatedResults = require('../middlewares/paginatedResults');
+const setUplodType = require("../middlewares/setUploadType");
+
 
 // Public route to search vehicles
 router.get('/search',paginatedResults('Vehicle',{available :true}), vehicleController.searchVehicles);

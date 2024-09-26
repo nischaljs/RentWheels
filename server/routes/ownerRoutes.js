@@ -4,6 +4,12 @@ const router = express.Router();
 const ownerController = require('../controllers/ownerController');
 const authMiddleware = require('../middlewares/authMiddleware');
 
-router.get("/listedVehicles",authMiddleware("OWNER"),paginatedResults('Vehicle',{ ownerId: req.user.id }), ownerController.getVehicles);
+
+
+const getOwnerFilter = (req) => {
+    return { ownerId: req.user.id }; 
+  };
+
+router.get("/listedVehicles",authMiddleware("OWNER"),paginatedResults('Vehicle',getOwnerFilter), ownerController.getVehicles);
 
 module.exports = router;
