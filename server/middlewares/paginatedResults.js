@@ -1,6 +1,6 @@
 const prisma = require('../prismaClient');
 
-const paginatedResults = async (model,filter ={}) => {
+const paginatedResults =  (model,filter ={}) => {
 
     return async (req, res, next) => {
         const page = parseInt(req.query.page);

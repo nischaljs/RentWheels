@@ -4,3 +4,5 @@ const setUplodType = (type) =>{
         next();
     }
 }
+
+module.exports = setUplodType;
