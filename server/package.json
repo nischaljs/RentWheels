@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"node --watch index.js"
+    "start": "node --watch index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,11 +13,14 @@
   "dependencies": {
     "@prisma/client": "^5.19.1",
     "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "jsonwebtoken": "^9.0.2",
+    "mime": "^4.0.4",
     "multer": "^1.4.5-lts.1",
+    "qs": "^6.13.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
