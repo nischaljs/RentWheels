@@ -31,6 +31,7 @@ model Vehicle {
   pricePerDay       Float
   available         Boolean            @default(true)
   driverAvailable   Boolean            @default(false)
+  approved          Boolean            @default(false)
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
   image             String?
