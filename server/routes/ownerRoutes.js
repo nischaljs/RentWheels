@@ -12,4 +12,7 @@ const getOwnerFilter = (req) => {
 
 router.get("/listedVehicles",authMiddleware("OWNER"),paginatedResults('Vehicle',getOwnerFilter), ownerController.getVehicles);
 
+//route for owner to see the booking of the vehicle
+
+
 module.exports = router;

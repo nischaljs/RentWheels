@@ -6,7 +6,7 @@ exports.createPayment = async (req, res) => {
     try {
         const { amount, bookingId } = req.body; 
         const userId = req.user.id; 
-        const payment = await paymentService.createPayment({ userId, amount, bookingId });
+        const payment = await paymentService.createPayment({ userId, amount, bookingId,token });
         res.status(201).json({ success: true, data: payment });
     } catch (error) {
         handleErrors(res, error);

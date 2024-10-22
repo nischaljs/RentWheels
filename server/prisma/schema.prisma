@@ -74,13 +74,15 @@ model Booking {
 }
 
 model Payment {
-  id        Int      @id @default(autoincrement())
-  bookingId Int      @unique
-  amount    Float
-  method    String
-  status    String
-  timestamp DateTime @default(now())
-  booking   Booking  @relation(fields: [bookingId], references: [id])
+  id              Int         @id @default(autoincrement())
+  bookingId       Int         @unique
+  amount          Float
+  token           String      // Khalti transaction token for verification/refund
+  status          PaymentStatus
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  booking         Booking     @relation(fields: [bookingId], references: [id])
+  @@index([bookingId], map: "Payment_bookingId_fkey")
 }
 
 model Document {
@@ -124,4 +126,12 @@ enum BookingStatus{
   CONFIRMED
   COMPLETED
   EXPIRED
+}
+
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
 }
