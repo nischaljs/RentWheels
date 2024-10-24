@@ -8,10 +8,10 @@ const jwt = require('jsonwebtoken');
 
 
 const JWT_SECRET = process.env.JWT_SECRET;
-function generateToken(userId) {
+function generateToken(userId,role) {
     console.log(JWT_SECRET);
     
-    return jwt.sign({ userId }, JWT_SECRET, { expiresIn: '1h' });
+    return jwt.sign({ userId,role }, JWT_SECRET, { expiresIn: '365d' });
 }
 
 function generatePasswordHash(password){
@@ -59,7 +59,7 @@ exports.register = async (userData) => {
         },
     });
 
-    const token = generateToken(user.id)
+    const token = generateToken(user.id, user.role);
 
     return token;
 };
@@ -84,7 +84,7 @@ exports.login = async (loginData) => {
     }
 
 
-    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = generateToken(user.id, user.role);
 
     return token;
 };

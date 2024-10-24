@@ -4,6 +4,7 @@ const authMiddleware = (role) => {
     return async (req, res, next) => {
         const authHeader = req.header('Authorization');
         let token;
+        
 
         // Check for token in the Authorization header
         if (authHeader && authHeader.startsWith('Bearer ')) {
@@ -20,9 +21,14 @@ const authMiddleware = (role) => {
         }
 
         try {
+            console.log(token);
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            console.log(decoded);
+            
 
             req.user = decoded;
+            console.log(req.user);
+            
 
             // Check for role if necessary
             if (role && req.user.role !== role) {
