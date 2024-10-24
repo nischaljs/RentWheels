@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { Car, User, Lock, Briefcase, Mail } from 'lucide-react';
+import axios from 'axios';
 
-// Mock axios import and configuration
-// import axios from 'axios';
-// const API_URL = 'https://api.vehicle-rental.com';
+const API_URL =import.meta.env.VITE_API_URL;
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedRole, setSelectedRole] = useState('User');
+  const [selectedRole, setSelectedRole] = useState('USER');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -28,25 +27,29 @@ const Login = () => {
     setError('');
 
     try {
-      // Axios implementation (commented out)
-      /*
-      const response = await axios.post(`${API_URL}/auth/login`, {
+      // Sending credentials to the backend
+      const response = await axios.post(`${API_URL}/users/login`, {
         email,
         password,
-        role: selectedRole
+        role: selectedRole.toUpperCase()
       });
+      console.log(response.data);
+      
 
-      if (response.data.token) {
-        localStorage.setItem('user', JSON.stringify(response.data));
-        window.location.href = '/dashboard';
+      if (response.data.success) {
+
+        localStorage.setItem('user', JSON.stringify(response.data.data)); 
+        window.location.href = `/${selectedRole}/dashboard`; 
       }
-      */
-
-      // Mock implementation
-      localStorage.setItem('user', JSON.stringify({ email, role: selectedRole }));
-      window.location.href = '/dashboard';
+      else{
+        setError('Invalid credentials. Please try again.');
+      }
     } catch (err) {
-      setError('Invalid credentials. Please try again.');
+      if (err.response && err.response.status === 500) {
+        setError('Invalid credentials. Please try again.');
+      } else {
+        setError('An error occurred. Please try again later.');
+      }
     } finally {
       setLoading(false);
     }
