@@ -1,4 +1,4 @@
-// BookingHistory.jsx
+
 import React from 'react';
 
 const BookingHistory = ({ bookings }) => {

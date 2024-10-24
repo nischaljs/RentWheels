@@ -1,9 +1,15 @@
 import React from 'react';
 import { User, Settings, Heart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const CarCard = ({ car }) => {
+  const navigate = useNavigate();
+
+  const handleCarCardClick = (carId) => {
+    navigate(`/vehicle/${carId}`);
+  }
   return (
-    <div className="bg-white shadow-lg rounded-lg p-4 mb-6">
+    <div className="bg-white shadow-lg rounded-lg p-4 mb-6 cursor-pointer" onClick={()=>handleCarCardClick(car.id)}>
       <img src={car.image} alt={car.name} className="w-full h-48 object-cover rounded-lg" />
 
       <div className="mt-4">

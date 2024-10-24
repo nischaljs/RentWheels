@@ -1,19 +1,21 @@
-// PaymentInformation.jsx
-import React from 'react';
+// Updated PaymentInformation Component
 
-const PaymentInformation = ({ paymentMethods }) => {
+import React from 'react';
+import { CreditCard } from 'lucide-react';
+
+const PaymentInformation = ({ payment }) => {
   return (
     <div className="p-4 bg-white shadow rounded-lg">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Payment Information</h2>
-      <ul>
-        {paymentMethods.map(method => (
-          <li key={method.id} className="border-b py-2 px-4">
-            <p className="text-gray-700">{method.type} ending in {method.last_four_digits}</p>
-          </li>
-        ))}
-      </ul>
+      <h2 className="text-2xl font-bold flex items-center mb-4"><CreditCard className="mr-2" />Payment Information</h2>
+      <div className="space-y-4">
+        <p className="text-sm text-gray-700">Amount: ${payment.amount}</p>
+        <p className="text-sm text-gray-700">Payment Status: {payment.status}</p>
+        <p className="text-sm text-gray-700">Payment Token: {payment.token}</p>
+      </div>
     </div>
   );
 };
 
 export default PaymentInformation;
+
+

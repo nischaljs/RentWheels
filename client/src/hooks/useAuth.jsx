@@ -14,8 +14,7 @@ export const AuthProvider = ({ children }) => {
 
     // Sample data for now, replace with API call later
     const login = () => {
-        // Simulate a login
-        const sampleUser = { id: 1, username: 'sampleUser', token: 'sampleToken' };
+        const sampleUser = { id: 1, username: 'sampleUser', token: 'sampleToken', role:'USER' };
         setUser(sampleUser);
     };
 

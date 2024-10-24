@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Menu, X, Car, User, LogIn, Bell } from 'lucide-react';
 import Notifications from './Notifications';
 
@@ -21,45 +21,101 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-gray-800">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
-          <Car className="w-8 h-8 text-indigo-500" />
-          <span className="text-xl font-bold ml-2">RentWheels</span>
+          <Car className="w-8 h-8 text-white" />
+          <span className="text-xl font-bold ml-2 text-white">RentWheels</span>
         </div>
 
         {/* Menu for larger screens */}
         <div className="hidden md:flex space-x-6">
-          <Link to="/" className="text-gray-600 hover:text-indigo-500">Home</Link>
-          <Link to="/vehicles" className="text-gray-600 hover:text-indigo-500">Vehicles</Link>
-          <Link to="/about" className="text-gray-600 hover:text-indigo-500">About Us</Link>
-          <Link to="/contact" className="text-gray-600 hover:text-indigo-500">Contact</Link>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `text-white hover:text-indigo-400 ${
+                isActive ? 'font-bold' : 'font-normal'
+              }`
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/vehicles"
+            className={({ isActive }) =>
+              `text-white hover:text-indigo-400 ${
+                isActive ? 'font-bold' : 'font-normal'
+              }`
+            }
+          >
+            Vehicles
+          </NavLink>
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              `text-white hover:text-indigo-400 ${
+                isActive ? 'font-bold' : 'font-normal'
+              }`
+            }
+          >
+            About Us
+          </NavLink>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              `text-white hover:text-indigo-400 ${
+                isActive ? 'font-bold' : 'font-normal'
+              }`
+            }
+          >
+            Contact
+          </NavLink>
         </div>
 
         {/* User login and notifications */}
         <div className="hidden md:flex items-center space-x-4">
-          <button onClick={toggleNotifications} className="relative">
-            <Bell className="w-5 h-5 text-gray-600 hover:text-indigo-500" />
+          <button
+            onClick={toggleNotifications}
+            className="relative text-white hover:text-indigo-400"
+          >
+            <Bell className="w-5 h-5" />
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg">
+              <div className="absolute z-50 right-0 mt-2 w-72 bg-white shadow-lg rounded-lg">
                 <Notifications notifications={notifications} />
               </div>
             )}
           </button>
-          <Link to="/login" className="text-gray-600 hover:text-indigo-500">
+          <NavLink
+            to="/login"
+            className={({ isActive }) =>
+              `text-white hover:text-indigo-400 ${
+                isActive ? 'font-bold' : 'font-normal'
+              }`
+            }
+          >
             <LogIn className="w-5 h-5 inline-block" />
             <span className="ml-1">Login</span>
-          </Link>
-          <Link to="/profile" className="text-gray-600 hover:text-indigo-500">
+          </NavLink>
+          <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              `text-white hover:text-indigo-400 ${
+                isActive ? 'font-bold' : 'font-normal'
+              }`
+            }
+          >
             <User className="w-5 h-5 inline-block" />
             <span className="ml-1">Profile</span>
-          </Link>
+          </NavLink>
         </div>
 
         {/* Hamburger Menu for mobile */}
         <div className="md:hidden flex items-center">
-          <button onClick={toggleNavbar}>
+          <button
+            onClick={toggleNavbar}
+            className="text-white hover:text-indigo-400"
+          >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
@@ -67,13 +123,67 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="md:hidden bg-white space-y-2 px-4 py-4">
-          <Link to="/" className="block text-gray-600 hover:text-indigo-500">Home</Link>
-          <Link to="/vehicles" className="block text-gray-600 hover:text-indigo-500">Vehicles</Link>
-          <Link to="/about" className="block text-gray-600 hover:text-indigo-500">About Us</Link>
-          <Link to="/contact" className="block text-gray-600 hover:text-indigo-500">Contact</Link>
-          <Link to="/login" className="block text-gray-600 hover:text-indigo-500">Login</Link>
-          <Link to="/profile" className="block text-gray-600 hover:text-indigo-500">Profile</Link>
+        <div className="md:hidden bg-gray-800">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `block text-white py-2 px-4 hover:bg-indigo-600 ${
+                isActive ? 'font-bold' : 'font-normal'
+              }`
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/vehicles"
+            className={({ isActive }) =>
+              `block text-white py-2 px-4 hover:bg-indigo-600 ${
+                isActive ? 'font-bold' : 'font-normal'
+              }`
+            }
+          >
+            Vehicles
+          </NavLink>
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              `block text-white py-2 px-4 hover:bg-indigo-600 ${
+                isActive ? 'font-bold' : 'font-normal'
+              }`
+            }
+          >
+            About Us
+          </NavLink>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              `block text-white py-2 px-4 hover:bg-indigo-600 ${
+                isActive ? 'font-bold' : 'font-normal'
+              }`
+            }
+          >
+            Contact
+          </NavLink>
+          <NavLink
+            to="/login"
+            className={({ isActive }) =>
+              `block text-white py-2 px-4 hover:bg-indigo-600 ${
+                isActive ? 'font-bold' : 'font-normal'
+              }`
+            }
+          >
+            Login
+          </NavLink>
+          <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              `block text-white py-2 px-4 hover:bg-indigo-600 ${
+                isActive ? 'font-bold' : 'font-normal'
+              }`
+            }
+          >
+            Profile
+          </NavLink>
         </div>
       )}
     </nav>
