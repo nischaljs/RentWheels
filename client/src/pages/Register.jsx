@@ -1,25 +1,28 @@
 import React, { useState } from 'react';
-import { Car, User, Lock, Briefcase, Mail, EyeOff, Eye } from 'lucide-react';
+import { Car, User, Lock, Briefcase, Mail, EyeOff, Eye, Phone, User as UserIcon } from 'lucide-react';
+import axios from 'axios';
 
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [phone, setPhone] = useState('');
   const [selectedRole, setSelectedRole] = useState('User');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const roles = [
-    { name: 'User', icon: User },
-    { name: 'Owner', icon: Briefcase },
-    { name: 'Admin', icon: Lock }
+    { name: 'user', icon: User },
+    { name: 'owner', icon: Briefcase },
   ];
 
-  // Validation function
   const validateForm = () => {
-    if (!email || !password || !confirmPassword) {
+    if (!email || !password || !confirmPassword || !fullName || !phone) {
       setError('Please fill in all fields');
       return false;
     }
@@ -52,23 +55,20 @@ const Register = () => {
     setLoading(true);
 
     try {
-      // Axios implementation (commented out)
-      /*
-      const response = await axios.post(`${API_URL}/auth/register`, {
+      const response = await axios.post(`${API_URL}/users/register`, {
         email,
         password,
-        role: selectedRole
+        fullName,
+        phone,
+        role: selectedRole.toUpperCase()
       });
 
       if (response.data.success) {
-        window.location.href = '/login';
+        window.location.href = `/${selectedRole}/dashboard`; 
       }
-      */
-
-      // Mock implementation
-      localStorage.setItem('user', JSON.stringify({ email, role: selectedRole }));
-      window.location.href = '/login';
     } catch (err) {
+      console.log(err);
+      
       setError('Registration failed. Please try again.');
     } finally {
       setLoading(false);
@@ -126,6 +126,28 @@ const Register = () => {
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+
+              <div className="relative">
+                <UserIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
+              </div>
+
+              <div className="relative">
+                <Phone className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Phone Number"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
 
