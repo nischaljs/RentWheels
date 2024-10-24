@@ -1,5 +1,5 @@
 const prisma = require("../prismaClient"); 
-const CustomError = require('../utils/CustomError'); 
+const CustomError = require('../utils/customError'); 
 
 const axios = require('axios');
 

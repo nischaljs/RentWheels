@@ -21,7 +21,7 @@ const AppRoutes = () => {
         path="/admin/dashboard" 
         element={
           <ProtectedRoute >
-            <AdminDashboard />
+            <AdminDashboard />UserDashboard
           </ProtectedRoute>
         } 
       />
