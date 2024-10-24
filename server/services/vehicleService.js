@@ -19,18 +19,47 @@ exports.addVehicle = async (vehicleData, imagePath, ownerId) => {
     });
 };
 
-//get individual vehicle detail
 exports.getVehicle = async (vehicleId) => {
     return await prisma.vehicle.findUnique({
         where: {
             id: vehicleId
         },
         include: {
-            owner: true,
-            availability: true
+            owner: {
+                select: {
+                    id: true,
+                    fullName: true,
+                    email: true,
+                    phone: true  // Add only the necessary fields
+                    // Ensure you do NOT select the password or other sensitive fields
+                }
+            },
+            reviews:{
+                select:{
+                    id:true,
+                    rating:true,
+                    comment:true,
+                    createdAt:true,
+                    user:{
+                        select:{
+                            fullName:true
+                        }
+                    }
+                }
+            },
+            availabilitySlots: true,
+            bookings: {
+                select: {
+                    id: true,
+                    startDate: true,
+                    endDate: true,
+                    status: true,
+                }
+            }
         }
     });
 }
+
 
 exports.searchVehicles = async (query) => {
     return await prisma.vehicle.findMany({
@@ -112,3 +141,21 @@ exports.getVehicleWithBookings = async (vehicleId) => {
         }
     });
 };
+
+exports.getAvailableVehicles = async () => {
+    try {
+      // Fetch vehicles that are available (assuming 'available' is a boolean field)
+      const availableVehicles = await prisma.vehicle.findMany({
+        where: {
+          available: true,  
+        },
+      });
+      console.log(availableVehicles);
+      
+      
+      return availableVehicles;
+    } catch (error) {
+      throw new Error('Error fetching available vehicles');
+    }
+  };
+  

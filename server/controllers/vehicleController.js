@@ -4,6 +4,21 @@ const { handleErrors } = require('../middlewares/errorHandler');
 const validateSchema = require('../utils/validateSchema');
 
 
+exports.getAvailableVehicles = async (req, res) => {
+  try {
+    // Call the service to get available vehicles
+    const availableVehicles = await vehicleService.getAvailableVehicles();
+    
+    res.status(200).json({
+      success: true,
+      paginationDetails :req.paginatedResults,
+      data: availableVehicles,
+    });
+  } catch (error) {
+    handleErrors(res, error);
+  }
+};
+
 exports.addVehicle = async (req, res) => {
   try {
     //since the form data i was sending from the frontend had to get some key so i gave it data key and also since the whole json was a value it was getting passed as string hence had to parse it to json
@@ -12,7 +27,7 @@ exports.addVehicle = async (req, res) => {
     const validatedData = validateSchema(createVehicleSchema, data);
     console.log( "erros in request " + req);
     
-    const imagePath = req.file ? req.file.path : null;
+    const imagePath = req.file ? req.file.path.replace(/^public/, '') : null;
     const ownerId = req.user.id;
     const newVehicle = await vehicleService.addVehicle(validatedData, imagePath, ownerId);
     res.status(201).json({
@@ -27,7 +42,8 @@ exports.addVehicle = async (req, res) => {
 
 exports.getVehicle = async (req, res) => {
   try {
-    const vehicles = await vehicleService.getVehicle(req.params.id);
+    const id = parseInt(req.params.id);
+    const vehicles = await vehicleService.getVehicle(id);
     res.status(200).json({
       success: true,
       data: vehicles
@@ -58,7 +74,7 @@ exports.updateVehicle = async (req, res) => {
       success: true,
       message: 'Vehicle updated successfully',
       data: updatedVehicle
-    });
+    });public
   } catch (error) {
     handleErrors(res, error);
   }

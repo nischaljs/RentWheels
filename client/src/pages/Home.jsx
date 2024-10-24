@@ -7,65 +7,12 @@ import WhyChooseUs from '../components/WhyChooseUs';
 import TestimonialsCarousel from '../components/TestimonialsCarousel';
 import Footer from '../components/Footer';
 
-const cars = [
-  {
-    id: 1,
-    name: 'Land Rover Defender Sports',
-    image: '/images/defender.jpg',
-    transmission: 'Automatic',
-    capacity: 4,
-    price: 390,
-    features: ['4x4', 'GPS', 'Bluetooth', 'Leather Seats'],
-    rating: 4.8,
-    reviews: 124
-  },
-  {
-    id: 2,
-    name: 'Mercedes-Benz GLC Coupe',
-    image: '/images/glc.jpg',
-    transmission: 'Automatic',
-    capacity: 4,
-    price: 420,
-    features: ['AWD', 'Panoramic Roof', 'Smart Display', 'Premium Audio'],
-    rating: 4.9,
-    reviews: 156
-  },
-  {
-    id: 3,
-    name: 'BMW X5',
-    image: '/images/x5.jpg',
-    transmission: 'Automatic',
-    capacity: 5,
-    price: 450,
-    features: ['AWD', 'Sport Mode', 'Premium Sound', 'Heated Seats'],
-    rating: 4.7,
-    reviews: 198
-  },
-  {
-    id: 4,
-    name: 'Audi Q7',
-    image: '/images/q7.jpg',
-    transmission: 'Automatic',
-    capacity: 7,
-    price: 500,
-    features: ['Quattro AWD', '3rd Row', 'Bang & Olufsen Audio', 'Air Suspension'],
-    rating: 4.8,
-    reviews: 167
-  },
-  {
-    id: 5,
-    name: 'Tesla Model X',
-    image: '/images/modelx.jpg',
-    transmission: 'Automatic',
-    capacity: 5,
-    price: 600,
-    features: ['Autopilot', 'Falcon Doors', 'Ludicrous Mode', 'Premium Interior'],
-    rating: 4.9,
-    reviews: 215
-  }
-];
+
+
 
 const Home = () => {
+
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -94,7 +41,7 @@ const Home = () => {
                 <h2 className="text-2xl font-bold text-gray-800">Available Vehicles</h2>
                 <p className="text-gray-600">Find your perfect rental from our premium selection</p>
               </div>
-              <CarsGrid cars={cars} />
+              <CarsGrid />
             </div>
           </div>
         </div>

@@ -8,6 +8,7 @@ const setUplodType = require("../middlewares/setUploadType");
 
 
 // Public route to search vehicles
+router.get('/available',paginatedResults('Vehicle',{available :true}), vehicleController.getAvailableVehicles);
 router.get('/search',paginatedResults('Vehicle',{available :true}), vehicleController.searchVehicles);
 router.get('/:id', vehicleController.getVehicle);
 

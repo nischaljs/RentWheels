@@ -1,17 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import CarCard from './CarCard';
 
-const CarsGrid = ({ cars }) => {
+const baseUrl = import.meta.env.VITE_API_URL;
+
+const CarsGrid = () => {
+  const [cars, setCars] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const carsPerPage = 6; // Adjust the number of cars displayed per page
+  const [totalPages, setTotalPages] = useState(1);
+  const carsPerPage = 6; // Number of cars to fetch per page
 
-  // Calculate total number of pages
-  const totalPages = Math.ceil(cars.length / carsPerPage);
+  useEffect(() => {
+    const fetchCars = async () => {
+      try {
+        const response = await axios.get(`${baseUrl}/vehicles/available`, {
+          params: {
+            page: currentPage,
+            limit: carsPerPage, // Number of cars per page
+          },
+        });
 
-  // Slice the cars array for the current page
-  const indexOfLastCar = currentPage * carsPerPage;
-  const indexOfFirstCar = indexOfLastCar - carsPerPage;
-  const currentCars = cars.slice(indexOfFirstCar, indexOfLastCar);
+        const { data, paginationDetails } = response.data;
+        setCars(data);
+        console.log(data);
+        
+        setTotalPages(Math.ceil(paginationDetails.total / carsPerPage)); // Calculate total pages based on backend response
+      } catch (error) {
+        console.error('Error fetching cars:', error);
+      }
+    };
+
+    fetchCars();
+  }, [currentPage]); // Re-fetch cars when currentPage changes
 
   // Pagination handlers
   const handleNextPage = () => {
@@ -29,8 +49,8 @@ const CarsGrid = ({ cars }) => {
   return (
     <div className="w-full">
       {/* Cars Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-        {currentCars.map((car) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 p-6">
+        {cars.map((car) => (
           <CarCard key={car.id} car={car} />
         ))}
       </div>

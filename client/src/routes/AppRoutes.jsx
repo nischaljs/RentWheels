@@ -34,9 +34,9 @@ const AppRoutes = () => {
         <Route 
           path="/owner/dashboard" 
           element={
-            <ProtectedRoute allowedRoles={["OWNER"]}>
+            // <ProtectedRoute allowedRoles={["OWNER"]}>
               <OwnerDashboard />
-            </ProtectedRoute>
+            // </ProtectedRoute>
           } 
         />
         
