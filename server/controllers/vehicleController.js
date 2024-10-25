@@ -97,7 +97,7 @@ exports.deleteVehicle = async (req, res) => {
 
 exports.updateVehicleAvailability = async (req, res) => {
   try {
-    const vehicleId = req.params.id;
+    const vehicleId = parseInt(req.params.id);
     const updatedVehicle = await vehicleService.updateVehicleAvailability(vehicleId);
     res.status(200).json({
       success: true,

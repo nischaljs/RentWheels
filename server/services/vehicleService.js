@@ -111,23 +111,21 @@ exports.deleteVehicle = async (vehicleId) => {
 
 
 exports.updateVehicleAvailability = async (vehicleId) => {
-    return await prisma.vehicle.update({
-        where: {
-            id: vehicleId
-        },
-        data: {
-            availability: {
-                updateMany: {
-                    where: {
-                        day: new Date().getDay()
-                    },
-                    data: {
-                        available: false
-                    }
-                }
-            }
-        }
+    // Fetch current availability status
+    const vehicle = await prisma.vehicle.findUnique({
+        where: { id: vehicleId },
+        select: { available: true },
     });
+
+    // Check if vehicle exists and toggle the availability
+    if (vehicle) {
+        return await prisma.vehicle.update({
+            where: { id: vehicleId },
+            data: { available: !vehicle.available }, 
+        });
+    } else {
+        throw new Error(`Vehicle with ID ${vehicleId} not found.`);
+    }
 };
 
 //get all bookings of a vehicle 

@@ -7,9 +7,13 @@ const paginatedResults = require('../middlewares/paginatedResults');
 const setUplodType = require("../middlewares/setUploadType");
 
 
+const getVehicleFilter = (req) => {
+    return { available: true}; 
+};
+
 // Public route to search vehicles
-router.get('/available',paginatedResults('Vehicle',{available :true}), vehicleController.getAvailableVehicles);
-router.get('/search',paginatedResults('Vehicle',{available :true}), vehicleController.searchVehicles);
+router.get('/available',paginatedResults('Vehicle',getVehicleFilter), vehicleController.getAvailableVehicles);
+router.get('/search',paginatedResults('Vehicle',getVehicleFilter), vehicleController.searchVehicles);
 router.get('/:id', vehicleController.getVehicle);
 
 // Protected routes 
