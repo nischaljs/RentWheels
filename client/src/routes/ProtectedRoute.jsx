@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import LoadingPage from '../pages/Loading';
 
 const ProtectedRoute = ({ allowedRoles = ["USER"] }) => {
   const { user, loading } = useAuth();
@@ -10,7 +11,7 @@ const ProtectedRoute = ({ allowedRoles = ["USER"] }) => {
   console.log("Allowed Roles:", allowedRoles);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingPage/>;
   }
 
   if (!user) {
