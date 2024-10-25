@@ -139,7 +139,7 @@ const Navbar = () => {
                 >
                   <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center">
                     <span className="text-white text-sm font-medium">
-                      {user.name ? user.name[0].toUpperCase() : 'U'}
+                      {user.fullName ? user.fullName.split("")[0].toUpperCase() : 'U'}
                     </span>
                   </div>
                   <ChevronDown className="w-4 h-4 text-gray-700" />
