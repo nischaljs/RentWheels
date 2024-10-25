@@ -43,7 +43,7 @@ exports.loginUser = async (req, res) => {
 
 exports.getUserProfile = async (req, res) => {
   try {
-    const user = await userService.getProfile(req.user.id);
+    const user = await userService.getProfile(req.user.userId);
     res.status(200).json({ success: true, data: user });
   } catch (error) {
     handleErrors(res, error);

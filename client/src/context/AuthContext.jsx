@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const fetchUserProfile = async () => {
+            
             try {
                 const response = await axios.get(API_URL+'/users/profile', {
                     headers: {
@@ -25,7 +26,7 @@ export const AuthProvider = ({ children }) => {
                     },
                 });
                 console.log('User profile:', response.data);
-                setUser(response.data);
+                setUser(response.data.data);
             } catch (err) {
                 console.error('Error fetching user profile:', err);
                 setError('Failed to fetch user profile');

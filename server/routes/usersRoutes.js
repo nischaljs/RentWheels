@@ -10,7 +10,7 @@ router.post('/register', userController.registerUser);
 router.post('/login', userController.loginUser);
 
 // Route to get user profile details
-router.get('/profile',authMiddleware("USER"), userController.getUserProfile);
+router.get('/profile',authMiddleware(), userController.getUserProfile);
 
 // Route to update user profile details
 router.put('/profile',authMiddleware("USER"), userController.updateUserProfile);

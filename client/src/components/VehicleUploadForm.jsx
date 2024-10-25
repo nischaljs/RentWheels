@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 
 const VehicleUploadForm = ({ isOpen, onClose }) => {
   const [vehicleData, setVehicleData] = useState({
     name: '',
     type: '',
     seater: '',
-    transmission: '',
+    transmission: 'AUTOMATIC', // Default value
     pricePerDay: '',
     driverAvailable: false,
     available: true,
@@ -30,12 +30,18 @@ const VehicleUploadForm = ({ isOpen, onClose }) => {
 
     const formData = new FormData();
     formData.append('vehicleImage', vehicleImage);
-    Object.keys(vehicleData).forEach((key) => {
-      formData.append(key, vehicleData[key]);
-    });
+
+    // Convert types to match backend expectations
+    formData.append('name', vehicleData.name);
+    formData.append('type', vehicleData.type);
+    formData.append('seater', Number(vehicleData.seater)); 
+    formData.append('transmission', vehicleData.transmission); 
+    formData.append('pricePerDay', Number(vehicleData.pricePerDay));
+    formData.append('driverAvailable', vehicleData.driverAvailable); 
+    formData.append('available', vehicleData.available); 
 
     try {
-      const response = await axios.post('/vehicles/add', formData, {
+      const response = await api.post(`/vehicles/add`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -95,16 +101,17 @@ const VehicleUploadForm = ({ isOpen, onClose }) => {
           </div>
           <div className="mb-2">
             <label className="block text-gray-700 mb-1" htmlFor="transmission">Transmission</label>
-            <input
-              type="text"
+            <select
               name="transmission"
               id="transmission"
               className="border border-gray-300 p-3 w-full rounded focus:outline-none focus:ring focus:ring-blue-300"
-              placeholder="Automatic or Manual"
               value={vehicleData.transmission}
               onChange={handleChange}
               required
-            />
+            >
+              <option value="AUTOMATIC">Automatic</option>
+              <option value="MANUAL">Manual</option>
+            </select>
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 mb-1" htmlFor="pricePerDay">Price Per Day</label>

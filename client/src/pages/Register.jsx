@@ -62,8 +62,8 @@ const Register = () => {
         phone,
         role: selectedRole.toUpperCase()
       });
-
       if (response.data.success) {
+        localStorage.setItem('token', response.data.data); 
         window.location.href = `/${selectedRole}/dashboard`; 
       }
     } catch (err) {

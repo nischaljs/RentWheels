@@ -20,25 +20,27 @@ exports.getAvailableVehicles = async (req, res) => {
 };
 
 exports.addVehicle = async (req, res) => {
+  console.log('Incoming request body:', req.body);
+  console.log('Incoming file:', req.file);
+
   try {
-    //since the form data i was sending from the frontend had to get some key so i gave it data key and also since the whole json was a value it was getting passed as string hence had to parse it to json
-    const data = (JSON.parse (req.body.data));
-    
-    const validatedData = validateSchema(createVehicleSchema, data);
-    console.log( "erros in request " + req);
-    
-    const imagePath = req.file ? req.file.path.replace(/^public/, '') : null;
-    const ownerId = req.user.id;
-    const newVehicle = await vehicleService.addVehicle(validatedData, imagePath, ownerId);
-    res.status(201).json({
-      success: true,
-      message: 'Vehicle added successfully',
-      data: newVehicle
-    });
+      const data = req.body;
+      // const validatedData = validateSchema(createVehicleSchema, data);
+      const validatedData = data;
+      const imagePath = req.file ? req.file.path.replace(/^public/, '') : null;
+      const ownerId = req.user.userId;
+      const newVehicle = await vehicleService.addVehicle(validatedData, imagePath, ownerId);
+      res.status(201).json({
+          success: true,
+          message: 'Vehicle added successfully',
+          data: newVehicle
+      });
   } catch (error) {
-    handleErrors(res, error);
+      console.error('Error in addVehicle:', error); // Log the error for debugging
+      handleErrors(res, error);
   }
 };
+
 
 exports.getVehicle = async (req, res) => {
   try {

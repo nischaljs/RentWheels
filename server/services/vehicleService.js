@@ -6,18 +6,19 @@ exports.addVehicle = async (vehicleData, imagePath, ownerId) => {
     const { name, type, seater, transmission, pricePerDay, driverAvailable, available } = vehicleData;
     return await prisma.vehicle.create({
         data: {
-          name,
-          type,
-          seater: parseInt(seater),
-          transmission,
-          available,
-          pricePerDay: parseFloat(pricePerDay),
-          driverAvailable: driverAvailable === 'true',
-          image: imagePath, 
-          owner: { connect: { id: ownerId } } 
+            name,
+            type,
+            seater: parseInt(seater),
+            transmission,
+            available: available === 'true', // Converts available to Boolean
+            pricePerDay: parseFloat(pricePerDay),
+            driverAvailable: driverAvailable === 'true',
+            image: imagePath, 
+            owner: { connect: { id: ownerId } } 
         }
     });
 };
+
 
 exports.getVehicle = async (vehicleId) => {
     return await prisma.vehicle.findUnique({
@@ -30,8 +31,7 @@ exports.getVehicle = async (vehicleId) => {
                     id: true,
                     fullName: true,
                     email: true,
-                    phone: true  // Add only the necessary fields
-                    // Ensure you do NOT select the password or other sensitive fields
+                    phone: true  
                 }
             },
             reviews:{
@@ -147,7 +147,8 @@ exports.getAvailableVehicles = async () => {
       // Fetch vehicles that are available (assuming 'available' is a boolean field)
       const availableVehicles = await prisma.vehicle.findMany({
         where: {
-          available: true,  
+          available: true,
+          approved:true  
         },
       });
       console.log(availableVehicles);

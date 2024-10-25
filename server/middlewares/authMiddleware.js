@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 
 const authMiddleware = (role) => {
     return async (req, res, next) => {
+        console.log(role);
+        
         const authHeader = req.header('Authorization');
         let token;
         
@@ -27,7 +29,7 @@ const authMiddleware = (role) => {
             
 
             req.user = decoded;
-            console.log(req.user);
+            console.log("decoded user here ");
             
 
             // Check for role if necessary
