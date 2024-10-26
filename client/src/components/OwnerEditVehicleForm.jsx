@@ -22,6 +22,10 @@ const OwnerEditVehicleForm = ({ vehicle, onClose, onUpdate }) => {
     }
   };
 
+  const handleCheckboxChange = (e) => {
+    setFormData({ ...formData, driverAvailable: e.target.checked });
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4 bg-white w-4/12 px-6 rounded-lg py-2">
       <div className="flex justify-between items-center mb-4">
@@ -86,16 +90,17 @@ const OwnerEditVehicleForm = ({ vehicle, onClose, onUpdate }) => {
         />
       </div>
 
-      {/* Driver Available Toggle */}
+      {/* Driver Available Checkbox */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">Driver Available</label>
-        <button
-          type="button"
-          onClick={() => setFormData({ ...formData, driverAvailable: !formData.driverAvailable })}
-          className={`w-4/12 py-2 rounded-md text-white ${formData.driverAvailable ? 'bg-green-500' : 'bg-gray-300'}`}
-        >
-          {formData.driverAvailable ? 'Yes' : 'No'}
-        </button>
+        <label className="block text-sm font-medium text-gray-700 flex items-center">
+          <input
+            type="checkbox"
+            checked={formData.driverAvailable}
+            onChange={handleCheckboxChange} // Call the handleCheckboxChange function
+            className="mr-2"
+          />
+          Driver Available
+        </label>
       </div>
 
       {/* Buttons */}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pen, Car, Users, Calendar } from 'lucide-react';
+import { Pen, Car, Users, Calendar, CheckCircle, XCircle } from 'lucide-react'; // Importing new icons
 import api from '../services/api';
 import OwnerEditVehicleForm from './OwnerEditVehicleForm';
 
@@ -26,7 +26,7 @@ const OwnerVehicleCard = ({ vehicle, onUpdate }) => {
         <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold ${isAvailable ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
           {isAvailable ? 'Available' : 'Unavailable'}
         </div>
-
+        
         <div className="relative h-48 overflow-hidden">
           <img
             src={`${imgUrl}/${vehicle.image}`}
@@ -50,6 +50,16 @@ const OwnerVehicleCard = ({ vehicle, onUpdate }) => {
             <div className="flex items-center text-gray-600">
               <Calendar className="w-4 h-4 mr-2" />
               <span>₹{vehicle.pricePerDay}/day</span>
+            </div>
+
+            {/* Driver Availability Indicator */}
+            <div className="flex items-center text-gray-600">
+              {vehicle.driverAvailable ? (
+                <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+              ) : (
+                <XCircle className="w-4 h-4 text-red-500 mr-2" />
+              )}
+              <span>{vehicle.driverAvailable ? 'Driver Available' : 'Driver Unavailable'}</span>
             </div>
           </div>
 
