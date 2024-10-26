@@ -1,7 +1,6 @@
 const { createVehicleSchema, updateVehicleSchema } = require('../schemas/VehicleSchemas');
 const vehicleService = require('../services/vehicleService');
 const { handleErrors } = require('../middlewares/errorHandler');
-const validateSchema = require('../utils/validateSchema');
 
 
 exports.getAvailableVehicles = async (req, res) => {
@@ -69,14 +68,15 @@ exports.searchVehicles = async (req, res) => {
 
 exports.updateVehicle = async (req, res) => {
   try {
-    const validatedData = validateSchema(updateVehicleSchema, req.body);
-    const vehicleId = req.params.id;
-    const updatedVehicle = await vehicleService.updateVehicle(vehicleId, validatedData);
+    console.log('Incoming request body to update vehicle:', req.body);
+    // const validatedData = validateSchema(updateVehicleSchema, req.body);
+    const vehicleId = parseInt(req.params.id);
+    const updatedVehicle = await vehicleService.updateVehicle(vehicleId, req.body);
     res.status(200).json({
       success: true,
       message: 'Vehicle updated successfully',
       data: updatedVehicle
-    });public
+    });
   } catch (error) {
     handleErrors(res, error);
   }

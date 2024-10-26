@@ -1,21 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import BookingManagement from '../components/BookingManagement'; 
-import ReviewManagement from '../components/ReviewManagement'; // For managing reviews on their vehicles
-import DashboardStats from '../components/DashboardStats'; // Overview statistics related to owner’s vehicles and bookings
+import ReviewManagement from '../components/ReviewManagement';
+import DashboardStats from '../components/DashboardStats';
 import VehicleUploadForm from '../components/VehicleUploadForm';
 import { Plus } from 'lucide-react';
-import VehicleGrid from '../components/OwnerVehicleEditCards';
-import api from '../services/api';
-
-
+import OwnerVehicleGrid from '../components/OwnerVehicleGrid';
 
 const OwnerDashboard = () => {
-  const [vehicles, setVehicles] = useState([]);
   const [activeTab, setActiveTab] = useState('vehicles');
   const [isUploadFormOpen, setUploadFormOpen] = useState(false);
 
   const tabs = [
-    { id: 'vehicles', label: 'My Vehicles', component: VehicleGrid },
+    { id: 'vehicles', label: 'My Vehicles', component: OwnerVehicleGrid },
     { id: 'bookings', label: 'My Bookings', component: BookingManagement },
     { id: 'reviews', label: 'Reviews', component: ReviewManagement },
   ];
@@ -24,19 +20,8 @@ const OwnerDashboard = () => {
     setUploadFormOpen(!isUploadFormOpen);
   };
 
-
-
-  useEffect(() => {
-    const fetchVehicles = async () => {
-      const response = await api.get('owner/listedVehicles?page=1&limit=6');
-      setVehicles(response.data.data.results);
-    };
-  
-    fetchVehicles();
-  }, []);
-
   return (
-    <div className="min-h-screen bg-gray-50/50 p-6 space-y-6">
+    <div className="min-h-screen bg-gray-50/50 p-6 space-y-6 mt-10">
       {/* Header */}
       <div className="flex flex-col space-y-2">
         <h1 className="text-3xl font-bold tracking-tight text-gray-900">
@@ -71,25 +56,21 @@ const OwnerDashboard = () => {
         </nav>
       </div>
 
-{/* Content Area */}
-<div className="bg-white rounded-lg border border-gray-200 shadow-sm">
-  <div className="p-6">
-    <h2 className="text-lg font-semibold mb-4">
-      {tabs.find(tab => tab.id === activeTab)?.label} Management
-    </h2>
-    <div className="mt-4">
-      {tabs.map((tab) => (
-        <div key={tab.id} className={`${activeTab === tab.id ? 'block' : 'hidden'}`}>
-          <tab.component 
-            vehicles={activeTab === 'vehicles' ? vehicles : undefined} 
-          />
+      {/* Content Area */}
+      <div className="bg-white rounded-lg border border-gray-200 shadow-sm">
+        <div className="p-6">
+          <h2 className="text-lg font-semibold mb-4">
+            {tabs.find(tab => tab.id === activeTab)?.label} Management
+          </h2>
+          <div className="mt-4">
+            {tabs.map((tab) => (
+              <div key={tab.id} className={`${activeTab === tab.id ? 'block' : 'hidden'}`}>
+                <tab.component />
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
-    </div>
-  </div>
-</div>
-
-
+      </div>
 
       {/* Floating Button to Upload Vehicle */}
       <button

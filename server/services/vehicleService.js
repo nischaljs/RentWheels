@@ -82,20 +82,18 @@ exports.searchVehicles = async (query) => {
 
 // Service to update vehicle details
 exports.updateVehicle = async (vehicleId, vehicleData) => {
+    const pricePerDay = parseFloat(vehicleData.pricePerDay);
     return await prisma.vehicle.update({
         where: {
             id: vehicleId
         },
         data: {
-            make: vehicleData.make,
-            model: vehicleData.model,
+            name: vehicleData.name,
             seats: vehicleData.seats,
             transmission: vehicleData.transmission,
             vehicleType: vehicleData.vehicleType,
-            availability: {
-                deleteMany: {}, 
-                create: vehicleData.availability 
-            }
+            pricePerDay: pricePerDay,
+            driverAvailable: vehicleData.driverAvailable,
         }
     });
 };

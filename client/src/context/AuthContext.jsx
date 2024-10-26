@@ -16,13 +16,13 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true); // To handle loading state
     const [error, setError] = useState(null); // To handle errors
 
+    const token = localStorage.getItem('token');
     useEffect(() => {
         const fetchUserProfile = async () => {
-            
             try {
                 const response = await axios.get(API_URL+'/users/profile', {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`, 
+                        Authorization: `Bearer ${token}`, 
                     },
                 });
                 console.log('User profile:', response.data);
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
         };
 
         fetchUserProfile();
-    }, []);
+    }, [token]);
 
 
     const logout = () => {
