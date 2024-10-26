@@ -1,5 +1,6 @@
 const { bookingSchema } = require("../schemas/BookingSchemas");
 const validateSchema = require("../utils/validateSchema");
+const bookingService = require("../services/bookingService");
 
 exports.getAllUserBookings = async (req, res) => {
     try {

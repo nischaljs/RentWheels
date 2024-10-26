@@ -10,6 +10,7 @@ const paymentRoutes = require('./paymentRoutes');
 const documentRoutes = require('./documentRoutes');
 const adminRoutes = require('./adminRoutes');
 const ownerRoutes = require('./ownerRoutes');
+const availabilityRoutes = require('./availabilityRoutes');
 
 // Route redirection 
 mainRouter.use('/users', userRoutes);       
@@ -20,5 +21,6 @@ mainRouter.use('/payments', paymentRoutes);
 mainRouter.use('/documents', documentRoutes);
 mainRouter.use('/admin', adminRoutes);
 mainRouter.use('/owner', ownerRoutes);
+mainRouter.use('/availability', availabilityRoutes);
 
 module.exports = mainRouter;

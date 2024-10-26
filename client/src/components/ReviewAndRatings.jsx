@@ -1,7 +1,7 @@
 // Updated ReviewAndRatings Component
 
+import { Star } from 'lucide-react';
 import React from 'react';
-import { FaStar } from 'react-icons/fa';
 
 const ReviewAndRatings = ({ reviews }) => {
   return (
@@ -14,10 +14,10 @@ const ReviewAndRatings = ({ reviews }) => {
               <p className="text-lg font-semibold">{review.vehicleName}</p>
               <div className="flex items-center">
                 {[...Array(review.rating)].map((_, index) => (
-                  <FaStar key={index} className="text-yellow-500" />
+                  <Star key={index} className="text-yellow-500" />
                 ))}
                 {[...Array(5 - review.rating)].map((_, index) => (
-                  <FaStar key={index} className="text-gray-300" />
+                  <Star key={index} className="text-gray-300" />
                 ))}
               </div>
             </div>

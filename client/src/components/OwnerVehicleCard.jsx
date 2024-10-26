@@ -4,6 +4,7 @@ import api from '../services/api';
 import OwnerEditVehicleForm from './OwnerEditVehicleForm';
 import OwnerBookingPopup from './OwnerBookingPopup';
 import OwnerDocumentUploadPopup from './OwnerDocumentUploadPopup';
+import { useNavigate } from 'react-router-dom';
 
 const imgUrl = import.meta.env.VITE_IMG_URL;
 
@@ -28,12 +29,20 @@ const ActionButton = ({ icon: Icon, label, onClick, variant = "secondary" }) => 
   </button>
 );
 
+
+
 const OwnerVehicleCard = ({ vehicle, onUpdate }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isAvailable, setIsAvailable] = useState(vehicle.available);
   const [isBookingPopupOpen, setIsBookingPopupOpen] = useState(false);
   const [isDocumentUploadPopupOpen, setIsDocumentUploadPopupOpen] = useState(false);
   const [isInfoVisible, setIsInfoVisible] = useState(false);
+  const navigate = useNavigate();
+
+
+  const handleVehicleClick = (vehicleId) => {
+    navigate(`/vehicle/${vehicleId}`);
+  };
 
   const handleAvailabilityToggle = async () => {
     try {
@@ -172,6 +181,15 @@ const OwnerVehicleCard = ({ vehicle, onUpdate }) => {
             </div>
           </div>
         )}
+        {/* Action Button */}
+        <div className="pt-4 border-t border-gray-100">
+          <button
+            onClick={() => handleVehicleClick(vehicle.id)}
+            className="w-full py-2.5 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
+          >
+            View Details
+          </button>
+        </div>
       </div>
 
       {/* Modals */}

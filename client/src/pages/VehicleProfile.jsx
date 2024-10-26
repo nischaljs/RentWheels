@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { 
-  Car, Calendar, User, Clock, Settings, 
-  DollarSign, Star, Shield, MapPin, 
+import {
+  Car, Calendar, User, Clock, Settings,
+  DollarSign, Star, Shield, MapPin,
   MessageCircle, ThumbsUp, Phone, Mail
 } from 'lucide-react';
-import { useParams } from 'react-router-dom';
+import { useActionData, useParams } from 'react-router-dom';
 import LoadingPage from './Loading';
+import { useAuth } from '../context/AuthContext';
 
 const VehicleProfile = () => {
   const { vehicleId } = useParams();
@@ -14,7 +15,8 @@ const VehicleProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
-  
+  const { user } = useAuth();
+
   const baseUrl = import.meta.env.VITE_API_URL;
   const imgBaseUrl = import.meta.env.VITE_IMG_URL;
 
@@ -36,18 +38,16 @@ const VehicleProfile = () => {
   const TabButton = ({ label, value, icon: Icon, count }) => (
     <button
       onClick={() => setActiveTab(value)}
-      className={`flex items-center space-x-2 px-6 py-3 rounded-lg transition-all duration-200 ${
-        activeTab === value
-          ? 'bg-blue-50 text-blue-600 shadow-sm'
-          : 'text-gray-600 hover:bg-gray-50'
-      }`}
+      className={`flex items-center space-x-2 px-6 py-3 rounded-lg transition-all duration-200 ${activeTab === value
+        ? 'bg-blue-50 text-blue-600 shadow-sm'
+        : 'text-gray-600 hover:bg-gray-50'
+        }`}
     >
       <Icon className="w-5 h-5" />
       <span className="font-medium">{label}</span>
       {count && (
-        <span className={`text-sm px-2 py-0.5 rounded-full ${
-          activeTab === value ? 'bg-blue-100' : 'bg-gray-100'
-        }`}>
+        <span className={`text-sm px-2 py-0.5 rounded-full ${activeTab === value ? 'bg-blue-100' : 'bg-gray-100'
+          }`}>
           {count}
         </span>
       )}
@@ -59,9 +59,8 @@ const VehicleProfile = () => {
       {[...Array(5)].map((_, index) => (
         <Star
           key={index}
-          className={`w-4 h-4 ${
-            index < (rating ?? 0) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
-          }`}
+          className={`w-4 h-4 ${index < (rating ?? 0) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
+            }`}
         />
       ))}
     </div>
@@ -69,7 +68,7 @@ const VehicleProfile = () => {
 
   if (loading) {
     return (
-      <LoadingPage/>
+      <LoadingPage />
     );
   }
 
@@ -135,11 +134,11 @@ const VehicleProfile = () => {
             <div className="bg-white rounded-xl shadow-sm p-2">
               <div className="flex space-x-2">
                 <TabButton label="Overview" value="overview" icon={Car} />
-                <TabButton 
-                  label="Reviews" 
-                  value="reviews" 
-                  icon={MessageCircle} 
-                  count={vehicle?.reviews?.length} 
+                <TabButton
+                  label="Reviews"
+                  value="reviews"
+                  icon={MessageCircle}
+                  count={vehicle?.reviews?.length}
                 />
                 <TabButton label="Availability" value="availability" icon={Calendar} />
               </div>
@@ -261,7 +260,7 @@ const VehicleProfile = () => {
                   <h2 className="text-2xl font-semibold mb-6">Availability Schedule</h2>
                   <div className="grid gap-4">
                     {vehicle?.availabilitySlots?.map((slot) => (
-                      <div 
+                      <div
                         key={slot.id}
                         className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
                       >
@@ -296,9 +295,14 @@ const VehicleProfile = () => {
                   </div>
                 </div>
               </div>
-              <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+              <button
+                disabled={user.role !== "USER"}
+                className={`w-full py-3 rounded-lg font-medium transition-colors ${user.role !== "USER" ? "bg-gray-400 text-gray-300 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"
+                  }`}
+              >
                 Book Now
               </button>
+
             </div>
           </div>
         </div>

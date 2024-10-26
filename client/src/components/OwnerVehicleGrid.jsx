@@ -34,7 +34,7 @@ const OwnerVehicleGrid = () => {
   }, [currentPage]);
 
   if (loading) return <div>Loading vehicles...</div>;
-  if (!vehicles || vehicles.length === 0) return <div>No vehicles available.</div>;
+  if (!vehicles || vehicles.length === 0) return <div>No vehicles available?, Why don't you list some ?</div>;
 
   return (
     <div className="p-6 space-y-6">
