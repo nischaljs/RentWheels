@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pen, Car, Users, Calendar, Upload, CheckCircle, XCircle, Shield } from 'lucide-react';
+import { Pen, Car, Users, Calendar, Upload, CheckCircle, XCircle, Shield, AlertTriangle, Info } from 'lucide-react';
 import api from '../services/api';
 import OwnerEditVehicleForm from './OwnerEditVehicleForm';
 import OwnerBookingPopup from './OwnerBookingPopup';
@@ -8,9 +8,8 @@ import OwnerDocumentUploadPopup from './OwnerDocumentUploadPopup';
 const imgUrl = import.meta.env.VITE_IMG_URL;
 
 const StatusBadge = ({ isActive, activeText, inactiveText, activeClass, inactiveClass }) => (
-  <div className={`px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5 ${
-    isActive ? activeClass : inactiveClass
-  }`}>
+  <div className={`px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5 ${isActive ? activeClass : inactiveClass
+    }`}>
     {isActive ? <CheckCircle className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
     {isActive ? activeText : inactiveText}
   </div>
@@ -20,8 +19,8 @@ const ActionButton = ({ icon: Icon, label, onClick, variant = "secondary" }) => 
   <button
     onClick={onClick}
     className={`w-full px-4 py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all
-      ${variant === "primary" 
-        ? "bg-blue-500 text-white hover:bg-blue-600" 
+      ${variant === "primary"
+        ? "bg-blue-500 text-white hover:bg-blue-600"
         : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
   >
     <Icon className="w-4 h-4" />
@@ -34,6 +33,7 @@ const OwnerVehicleCard = ({ vehicle, onUpdate }) => {
   const [isAvailable, setIsAvailable] = useState(vehicle.available);
   const [isBookingPopupOpen, setIsBookingPopupOpen] = useState(false);
   const [isDocumentUploadPopupOpen, setIsDocumentUploadPopupOpen] = useState(false);
+  const [isInfoVisible, setIsInfoVisible] = useState(false);
 
   const handleAvailabilityToggle = async () => {
     try {
@@ -48,7 +48,7 @@ const OwnerVehicleCard = ({ vehicle, onUpdate }) => {
 
   return (
     <>
-      <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
+      <div className="bg-white relative rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
         {/* Image Section */}
         <div className="relative h-56">
           <img
@@ -119,13 +119,11 @@ const OwnerVehicleCard = ({ vehicle, onUpdate }) => {
             <span className="text-sm font-medium text-gray-700">Quick Availability Toggle</span>
             <button
               onClick={handleAvailabilityToggle}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                isAvailable ? 'bg-green-500' : 'bg-gray-300'
-              }`}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${isAvailable ? 'bg-green-500' : 'bg-gray-300'
+                }`}
             >
-              <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                isAvailable ? 'translate-x-6' : 'translate-x-1'
-              }`} />
+              <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${isAvailable ? 'translate-x-6' : 'translate-x-1'
+                }`} />
             </button>
           </div>
 
@@ -143,7 +141,37 @@ const OwnerVehicleCard = ({ vehicle, onUpdate }) => {
               onClick={() => setIsDocumentUploadPopupOpen(true)}
             />
           </div>
+
+
+
         </div>
+        {/* Important Instructions */}
+        {/* Warning Icon */}
+        {!vehicle.approved && (
+          <div
+            onMouseEnter={() => setIsInfoVisible(true)}
+            onMouseLeave={() => setIsInfoVisible(false)}
+            className="absolute top-3 left-3 cursor-pointer p-2 bg-white rounded-full border border-red-600 shadow-md"
+          >
+            <AlertTriangle className="w-6 h-6 text-red-500" />
+          </div>
+        )}
+
+        {/* Info Box on Hover */}
+        {isInfoVisible && (
+          <div className="absolute top-10 left-3 w-64 p-4 bg-amber-50 rounded-lg border border-amber-200 shadow-lg z-10">
+            <div className="flex gap-2">
+              <Info className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+              <div className="text-sm text-amber-700">
+                <p className="font-semibold mb-1">Important Instructions:</p>
+                <ul className="list-disc ml-4 space-y-1">
+                  <li>Please ensure all required documents are uploaded for vehicle approval.</li>
+                  <li>Contact support if you have any questions or need assistance.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Modals */}
@@ -159,18 +187,18 @@ const OwnerVehicleCard = ({ vehicle, onUpdate }) => {
 
       {isBookingPopupOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
-          <OwnerBookingPopup 
-            vehicleId={vehicle.id} 
-            onClose={() => setIsBookingPopupOpen(false)} 
+          <OwnerBookingPopup
+            vehicleId={vehicle.id}
+            onClose={() => setIsBookingPopupOpen(false)}
           />
         </div>
       )}
 
       {isDocumentUploadPopupOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
-          <OwnerDocumentUploadPopup 
-            vehicleId={vehicle.id} 
-            onClose={() => setIsDocumentUploadPopupOpen(false)} 
+          <OwnerDocumentUploadPopup
+            vehicleId={vehicle.id}
+            onClose={() => setIsDocumentUploadPopupOpen(false)}
           />
         </div>
       )}

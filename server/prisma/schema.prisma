@@ -45,15 +45,18 @@ model Vehicle {
 }
 
 model AvailabilitySlot {
-  id        Int     @id @default(autoincrement())
-  vehicleId Int
-  dayOfWeek String
-  startTime String
-  endTime   String
-  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+  id            Int      @id @default(autoincrement())
+  vehicleId     Int
+  dayOfWeek     String?  // Nullable to allow specific dates
+  startTime     String
+  endTime       String
+  specificDate  DateTime? // Optional for one-time slots
+  recurring     Boolean   
+  vehicle       Vehicle   @relation(fields: [vehicleId], references: [id])
 
   @@index([vehicleId], map: "AvailabilitySlot_vehicleId_fkey")
 }
+
 
 model Booking {
   id             Int      @id @default(autoincrement())
