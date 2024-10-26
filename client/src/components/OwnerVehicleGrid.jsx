@@ -11,7 +11,7 @@ const OwnerVehicleGrid = () => {
   const fetchVehicles = async (page) => {
     setLoading(true);
     try {
-      const response = await api.get(`owner/listedVehicles?page=${page}&limit=6`);
+      const response = await api.get(`owner/listedVehicles?page=${page}&limit=4`);
       setVehicles(response.data.data.results);
       console.log(response.data.data);
       
