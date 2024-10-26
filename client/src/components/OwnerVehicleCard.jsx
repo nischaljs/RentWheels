@@ -182,10 +182,10 @@ const OwnerVehicleCard = ({ vehicle, onUpdate }) => {
           </div>
         )}
         {/* Action Button */}
-        <div className="pt-4 border-t border-gray-100">
+        <div className="py-4 flex items-center justify-center border-t border-gray-100">
           <button
             onClick={() => handleVehicleClick(vehicle.id)}
-            className="w-full py-2.5 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
+            className="w-4/12  py-2.5 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
           >
             View Details
           </button>
