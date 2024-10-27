@@ -1,6 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import LoadingPage from '../pages/Loading';
 const API_URL = import.meta.env.VITE_API_URL;
 // Create a context for authentication
 const AuthContext = createContext();
@@ -53,7 +54,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={value}>
-            {loading ? <div>Loading...</div> : children} {/* Show loading state while fetching user profile */}
+            {loading ? <LoadingPage/> : children} {/* Show loading state while fetching user profile */}
         </AuthContext.Provider>
     );
 };

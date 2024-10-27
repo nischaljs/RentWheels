@@ -12,6 +12,7 @@ const VehicleProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('Details');
+
   const imgBaseUrl = import.meta.env.VITE_IMG_URL;
   const { vehicleId } = useParams();
 
@@ -88,13 +89,6 @@ const VehicleProfile = () => {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Mobile Booking Button - Fixed at Bottom */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200">
-        <button className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-          Book Now
-        </button>
       </div>
     </div>
   );

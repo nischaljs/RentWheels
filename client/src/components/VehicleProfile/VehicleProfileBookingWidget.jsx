@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import VehicleBookingForm from '../vehicleBooking/VehicleBookingForm';
 
 const VehicleProfileBookingWidget = ({ vehicle }) => {
+  const [isBookingFormOpen, setisBookingFormOpen] = useState(false);
   const {user} = useAuth();
   const handleBooking = () => {
-    // Implement booking logic here
-    alert(`Booking for ${vehicle?.name} initiated!`);
+   setisBookingFormOpen(true);
   };
+
+  const handleFormClose = () => {
+    setisBookingFormOpen(false);
+  }
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-6">
@@ -15,10 +20,11 @@ const VehicleProfileBookingWidget = ({ vehicle }) => {
         disabled={user.role !== "USER"}
         className={`w-full py-3 rounded-lg font-medium transition-colors ${user.role !== "USER" ? "bg-gray-400 text-gray-300 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"
           }`}
+          onClick={handleBooking}
       >
         Book Now
       </button>
-
+      {isBookingFormOpen && <VehicleBookingForm vehicleId={vehicle.id} onClose={handleFormClose} />}
     </div>
   );
 };

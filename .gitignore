@@ -53,3 +53,4 @@ Thumbs.db
 # Local env files
 .env
 server/public/*
+process.txt
