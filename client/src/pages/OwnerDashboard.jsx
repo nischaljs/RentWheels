@@ -3,12 +3,14 @@ import BookingManagement from '../components/BookingManagement';
 import ReviewManagement from '../components/ReviewManagement';
 import DashboardStats from '../components/DashboardStats';
 import VehicleUploadForm from '../components/VehicleUploadForm';
-import { Plus } from 'lucide-react';
+import { Plus,Pen } from 'lucide-react';
 import OwnerVehicleGrid from '../components/OwnerVehicleGrid';
+import ProfileEditForm from '../components/ProfileEditForm';
 
 const OwnerDashboard = () => {
   const [activeTab, setActiveTab] = useState('vehicles');
   const [isUploadFormOpen, setUploadFormOpen] = useState(false);
+  const [isEditProfileOpen, setisEditProfileOpen] = useState(false)
 
   const tabs = [
     { id: 'vehicles', label: 'My Vehicles', component: OwnerVehicleGrid },
@@ -20,6 +22,10 @@ const OwnerDashboard = () => {
     setUploadFormOpen(!isUploadFormOpen);
   };
 
+  const toggleisEditProfileOpen = () => {
+    setisEditProfileOpen(!isEditProfileOpen);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50/50 p-6 space-y-6 mt-10">
       {/* Header */}
@@ -27,9 +33,15 @@ const OwnerDashboard = () => {
         <h1 className="text-3xl font-bold tracking-tight text-gray-900">
           Owner Dashboard
         </h1>
+        <div className='w-full flex items-center justify-between px-5'>
         <p className="text-gray-500">
           Manage your vehicles, view bookings, and check reviews.
         </p>
+        <div className='bg-gray-100 flex items-center justify-between gap-1  rounded-full p-3 text-sm cursor-pointer shadow-lg text-black'
+        onClick={toggleisEditProfileOpen}
+        >
+          <span>Edit profile details</span><Pen size={18}/></div>
+        </div>
       </div>
 
       {/* Statistics Card */}
@@ -82,6 +94,9 @@ const OwnerDashboard = () => {
 
       {/* Vehicle Upload Form */}
       <VehicleUploadForm isOpen={isUploadFormOpen} onClose={toggleUploadForm} />
+
+       {/* Edit  Profile Edit Form */}
+       <ProfileEditForm isOpen={isEditProfileOpen} onClose={toggleisEditProfileOpen} />
     </div>
   );
 };

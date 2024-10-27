@@ -13,7 +13,7 @@ router.post('/login', userController.loginUser);
 router.get('/profile',authMiddleware(), userController.getUserProfile);
 
 // Route to update user profile details
-router.put('/profile',authMiddleware("USER"), userController.updateUserProfile);
+router.put('/profile',authMiddleware(), userController.updateUserProfile);
 
 // Route to delete a user account
 router.delete('/profile',authMiddleware("USER"), userController.deleteUserAccount);

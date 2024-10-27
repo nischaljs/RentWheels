@@ -1,7 +1,7 @@
 import React from 'react';
 import { Car, Calendar, ArrowRight, Clock } from 'lucide-react';
 
-const MyRentals = ({ rentals }) => {
+const UsersRentals = ({ rentals }) => {
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
       case 'active':
@@ -86,4 +86,4 @@ const MyRentals = ({ rentals }) => {
   );
 };
 
-export default MyRentals;
+export default UsersRentals;

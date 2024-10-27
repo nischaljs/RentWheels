@@ -52,8 +52,8 @@ exports.getUserProfile = async (req, res) => {
 
 exports.updateUserProfile = async (req, res) => {
   try {
-    const validatedData = validateSchema(updateUserSchema, req.body);
-    const updatedUser = await userService.updateProfile(req.user.id, validatedData);
+    // const validatedData = validateSchema(updateUserSchema, req.body);
+    const updatedUser = await userService.updateProfile(req.user.userId, req.body);
     res.status(200).json({ success: true, data: updatedUser });
   } catch (error) {
     handleErrors(res, error);

@@ -45,7 +45,7 @@ const CarCard = ({ car }) => {
         <div className="flex justify-between items-start mb-4">
           <h3 className="text-xl font-semibold text-gray-900">{car.name}</h3>
           <div className="text-right">
-            <p className="text-2xl font-bold text-blue-600">${car.pricePerDay}</p>
+            <p className="text-2xl font-bold text-blue-600">रु.{car.pricePerDay}</p>
             <p className="text-sm text-gray-500">per day</p>
           </div>
         </div>

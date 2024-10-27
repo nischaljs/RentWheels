@@ -9,7 +9,7 @@ const BookingHistory = ({ bookings }) => {
         {bookings.map(booking => (
           <li key={booking.id} className="border-b py-2 px-4">
             <p className="text-gray-700">{booking.vehicleName} - {booking.date}</p>
-            <p className="text-gray-700">Total Cost: ${booking.totalCost}</p>
+            <p className="text-gray-700">Total Cost: रु.{booking.totalCost}</p>
           </li>
         ))}
       </ul>
