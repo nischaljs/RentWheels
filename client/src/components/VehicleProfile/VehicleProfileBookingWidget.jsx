@@ -24,7 +24,7 @@ const VehicleProfileBookingWidget = ({ vehicle }) => {
       >
         Book Now
       </button>
-      {isBookingFormOpen && <VehicleBookingForm vehicleId={vehicle.id} onClose={handleFormClose} />}
+      {isBookingFormOpen && <VehicleBookingForm vehicleId={vehicle.id} vehicle={vehicle} onClose={handleFormClose} />}
     </div>
   );
 };

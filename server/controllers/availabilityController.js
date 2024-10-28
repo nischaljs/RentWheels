@@ -77,31 +77,56 @@ async function deleteAvailabilitySlot(req, res) {
 // Check vehicle availability for specific dates
 async function checkVehicleAvailability(req, res) {
   try {
-    const { vehicleId, startDate, endDate } = req.body;
+    const { vehicleId, startDate, endDate, startTime, endTime } = req.body;
+    console.log("vehicleId " + vehicleId + " startDate " + startDate + " endDate " + endDate + " startTime " + startTime + " endTime " + endTime);
 
     const checkDate = new Date(startDate);
     const endCheckDate = new Date(endDate);
-    const availableSlots = await prisma.availabilitySlot.findMany({ where: { vehicleId: parseInt(vehicleId) } });
+    const availableSlots = await prisma.availabilitySlot.findMany({
+      where: { vehicleId: parseInt(vehicleId) }
+    });
 
     let isAvailable = false;
 
     for (const slot of availableSlots) {
+      const isSameDay = checkDate.toDateString() === endCheckDate.toDateString();
+
       if (slot.recurring) {
         const dayName = checkDate.toLocaleDateString('en-US', { weekday: 'long' });
         const availableDays = JSON.parse(slot.dayOfWeek);
+
         if (availableDays.includes(dayName)) {
-          isAvailable = true;
-          break;
+          if (isSameDay) {
+            // Enforce 3-hour minimum booking time if start and end are on the same day
+            const startHour = parseInt(startTime.split(':')[0], 10);
+            const endHour = parseInt(endTime.split(':')[0], 10);
+            if (endHour - startHour >= 3) {
+              isAvailable = true;
+              break;
+            }
+          } else {
+            isAvailable = true;
+            break;
+          }
         }
       } else if (slot.specificDate) {
         if (slot.specificDate.toDateString() === checkDate.toDateString()) {
-          isAvailable = true;
-          break;
+          if (isSameDay) {
+            const startHour = parseInt(startTime.split(':')[0], 10);
+            const endHour = parseInt(endTime.split(':')[0], 10);
+            if (endHour - startHour >= 3) {
+              isAvailable = true;
+              break;
+            }
+          } else {
+            isAvailable = true;
+            break;
+          }
         }
       }
     }
 
-    // Check for existing bookings
+    // Additional check for existing bookings in the specified time range
     const existingBooking = await prisma.booking.findFirst({
       where: {
         vehicleId: parseInt(vehicleId),
@@ -122,6 +147,7 @@ async function checkVehicleAvailability(req, res) {
     res.status(500).json({ error: 'Failed to check availability' });
   }
 }
+
 
 module.exports = {
   addAvailabilitySlots,
