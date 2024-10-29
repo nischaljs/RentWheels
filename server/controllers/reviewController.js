@@ -6,8 +6,8 @@ const handleErrors = require("../utils/handleErrors");
 // Controller to post a review by a verified user
 exports.postReview = async (req, res) => {
     try {
-        const data = validateSchema(reviewSchema, req.body);
-        const review = await reviewService.postReview(data, req.user.id); 
+        // const data = validateSchema(reviewSchema, req.body);
+        const review = await reviewService.postReview(req.body, req.user.userId); 
         res.status(201).json({ success: true, data: review });
     } catch (error) {
         handleErrors(res, error);

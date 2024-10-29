@@ -32,7 +32,7 @@ app.get('/payment/success', (req, res) => {
     }
     else {
         const url = req.url.split('?')[1]; // Extract query params
-        const redirectUrl = `http://localhost:5173/payment/success${url}`;
+        const redirectUrl = `http://localhost:5173/payment/success?${url}`;
         res.redirect(redirectUrl); // Redirect to the React frontend with params
     }
 });

@@ -91,10 +91,14 @@ const VehicleProfileAvailability = ({ availabilitySlots }) => {
         ))}
 
         {/* One-time Slots Section */}
-        {availabilitySlots.filter(slot => !slot.recurring).map((slot) => (
+        {availabilitySlots.filter(slot => !slot.recurring&& new Date(slot.specificDate) >= new Date()).map((slot) => (
           <div 
             key={slot.id}
-            className="bg-gradient-to-br from-blue-50 to-white p-1 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+            className={`p-1 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 ${
+              new Date(slot.specificDate) < new Date()
+                ? "bg-gradient-to-br from-red-300 to-white"
+                : "bg-gradient-to-br from-blue-50 to-white"
+            }`}
           >
             <div className="bg-white rounded-lg p-5 space-y-4">
               <div className="flex items-center justify-between">
