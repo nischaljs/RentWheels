@@ -17,7 +17,7 @@ const UserReviewAndRatings = ({ reviews }) => {
     : 0;
 
   return (
-    <div className="bg-white rounded-lg">
+    <div className="bg-white rounded-lg h-[60vh] overflow-y-scroll">
       {/* Header Section */}
       <div className="p-6 border-b border-gray-100">
         <div className="flex items-center justify-between mb-4">

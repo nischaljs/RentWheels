@@ -1,5 +1,13 @@
 import React from 'react';
-import { CreditCard, Calendar, CheckCircle, XCircle, Clock, RefreshCw, AlertCircle } from 'lucide-react';
+import {
+  CreditCard,
+  Calendar,
+  CheckCircle,
+  XCircle,
+  Clock,
+  RefreshCw,
+  AlertCircle,
+} from 'lucide-react';
 
 const UserPaymentInformation = ({ payment }) => {
   // Helper function to format date
@@ -9,7 +17,7 @@ const UserPaymentInformation = ({ payment }) => {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
@@ -19,30 +27,41 @@ const UserPaymentInformation = ({ payment }) => {
       COMPLETED: {
         icon: CheckCircle,
         className: 'text-green-600 bg-green-50',
-        label: 'Payment Completed'
+        label: 'Payment Completed',
       },
       PENDING: {
         icon: Clock,
         className: 'text-yellow-600 bg-yellow-50',
-        label: 'Payment Pending'
+        label: 'Payment Pending',
       },
       FAILED: {
         icon: XCircle,
         className: 'text-red-600 bg-red-50',
-        label: 'Payment Failed'
+        label: 'Payment Failed',
       },
       REFUNDED: {
         icon: RefreshCw,
         className: 'text-blue-600 bg-blue-50',
-        label: 'Payment Refunded'
-      }
+        label: 'Payment Refunded',
+      },
     };
     return configs[status] || {
       icon: AlertCircle,
       className: 'text-gray-600 bg-gray-50',
-      label: status
+      label: status,
     };
   };
+
+  console.log('payment', payment);
+  // Handle cases when no payment is available
+  if (!payment) {
+    return (
+      <div className="bg-white rounded-lg p-6 flex flex-col items-center text-gray-500">
+        <CreditCard className="w-10 h-10 mb-4 text-gray-400" />
+        <p>No payments found. Complete your first payment to see details here.</p>
+      </div>
+    );
+  }
 
   const statusConfig = getStatusConfig(payment.status);
   const StatusIcon = statusConfig.icon;
@@ -54,42 +73,30 @@ const UserPaymentInformation = ({ payment }) => {
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold text-gray-900 flex items-center">
             <CreditCard className="w-5 h-5 mr-2 text-gray-700" />
-            Payment Information
+            Last Payment Information
           </h2>
-          <div className={`px-3 py-1 rounded-full flex items-center space-x-2 ${statusConfig.className}`}>
+          <div
+            className={`px-3 py-1 rounded-full flex items-center space-x-2 ${statusConfig.className}`}
+          >
             <StatusIcon className="w-4 h-4" />
             <span className="text-sm font-medium">{statusConfig.label}</span>
           </div>
         </div>
       </div>
-
       {/* Payment Details */}
       <div className="p-6">
-        {/* Amount */}
-        <div className="mb-6">
-          <div className="text-3xl font-bold text-gray-900">
-          रु. {payment.amount.toFixed(2)}
-          </div>
-          <p className="text-sm text-gray-500 mt-1">Total Amount</p>
-        </div>
+        <div className="text-3xl font-bold text-gray-900">रु. {payment.amount.toFixed(2)}</div>
+        <p className="text-sm text-gray-500 mt-1">Total Amount</p>
 
         {/* Details Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           {/* Transaction Details */}
           <div className="space-y-4">
             <div>
               <div className="text-sm font-medium text-gray-500 mb-1">Transaction ID</div>
-              <div className="flex items-center space-x-2">
-                <code className="text-sm bg-gray-50 px-2 py-1 rounded">
-                  {payment.token.substring(0, 12)}...
-                </code>
-                <button
-                  className="text-blue-600 hover:text-blue-700 text-sm"
-                  onClick={() => navigator.clipboard.writeText(payment.token)}
-                >
-                  Copy
-                </button>
-              </div>
+              <code className="text-sm bg-gray-50 px-2 py-1 rounded">
+                {payment.transactionId.substring(0, 12)}...
+              </code>
             </div>
 
             <div>
@@ -116,16 +123,6 @@ const UserPaymentInformation = ({ payment }) => {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="mt-6 flex space-x-3">
-          <button className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-150">
-            View Receipt
-          </button>
-          <button className="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors duration-150">
-            Contact Support
-          </button>
         </div>
       </div>
     </div>

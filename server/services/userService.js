@@ -15,6 +15,7 @@ exports.getProfile = async (userId) => {
             vehicles: true,
             bookings: true,
             reviews: true,
+            Payment: true,
         },
     });
 

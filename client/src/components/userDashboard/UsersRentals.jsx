@@ -16,8 +16,8 @@ const UsersRentals = ({ rentals }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-      <div className="border-b border-gray-100 p-6">
+    <div className="bg-white rounded-xl h-[80vh] overflow-y-scroll border border-gray-200 shadow-sm">
+      <div className="border-b border-gray-100 p-6 ">
         <div className="flex items-center space-x-3">
           <div className="rounded-lg bg-blue-50 p-2">
             <Car className="w-5 h-5 text-blue-600" />
