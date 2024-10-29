@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Clock, AlertCircle, Receipt, Calendar, X } from 'lucide-react';
+import api from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
 
 const UserPaymentForm = ({ vehicleId, bookingData, onClose, vehicle }) => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const {user} = useAuth();
+
     // Calculate total hours
     const totalHours = bookingData.startDate && bookingData.endDate ?
         Math.ceil(
@@ -14,8 +20,56 @@ const UserPaymentForm = ({ vehicleId, bookingData, onClose, vehicle }) => {
     const hourlyRate = vehicle.pricePerDay / 24;
     const totalPrice = Math.ceil(totalHours * hourlyRate);
 
+    // Handle Khalti Checkout
+    const handleKhaltiCheckOut = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
+    
+            const bookingResponse = await api.post('/bookings/create', {
+                vehicleId,
+                startDate: new Date(`${bookingData.startDate.toDateString()} ${bookingData.startTime}`),
+                endDate: new Date(`${bookingData.endDate.toDateString()} ${bookingData.endTime}`),
+                totalPrice,
+                status: 'PENDING',
+                driverRequired: bookingData.driverRequired
+            });
+    
+            console.log("bookingResponse", bookingResponse.data.data);
+            if (bookingResponse.status !== 201) throw new Error('Booking creation failed');
+    
+            const pendingBookingData = bookingResponse.data.data;
+    
+            console.log("purchase_order_id", pendingBookingData.id);
+            const paymentResponse = await api.post(`/payments/create`, {
+                amount: totalPrice,
+                purchase_order_id: pendingBookingData.id,
+                purchase_order_name: vehicle.name,
+                vehicleId,
+                customer_info: user,
+                return_url: 'http://localhost:3000/payment/success',
+                website_url: 'http://localhost:3000'
+            });
+            console.log("paymentResponse", paymentResponse.data);
+    
+            if (!paymentResponse.data.success) throw new Error(paymentResponse.data.message);
+    
+            // Redirect to Khalti payment page
+            const paymentInitiationUrl = paymentResponse.data.data.paymentInitiationUrl;
+            window.location.href = paymentInitiationUrl;
+    
+        } catch (err) {
+            setError(err.message || 'Payment initialization failed');
+            console.error('Payment error:', err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    
+
     return (
-        <div className="bg-white rounded-xl w-full max-w-3xl shadow-2xl max-h-[90vh] space-y-4 overflow-y-auto p-8 ">
+        <div className="bg-white rounded-xl w-full max-w-3xl shadow-2xl max-h-[90vh] space-y-4 overflow-y-auto p-8">
+            {/* Existing header code remains the same */}
             <div className='w-full px-10 flex items-center justify-between'>
                 <h1 className="text-2xl font-bold text-gray-900">Payment Details</h1>
                 <button
@@ -25,7 +79,6 @@ const UserPaymentForm = ({ vehicleId, bookingData, onClose, vehicle }) => {
                     <X className="w-4 h-4 text-gray-500" />
                 </button>
             </div>
-
             {/* Warning Message */}
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
                 <div className="flex items-center">
@@ -37,7 +90,16 @@ const UserPaymentForm = ({ vehicleId, bookingData, onClose, vehicle }) => {
                 </div>
             </div>
 
-            {/* Booking Summary */}
+            {error && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <div className="flex items-center">
+                        <AlertCircle className="w-5 h-5 text-red-600 mr-2" />
+                        <p className="text-sm text-red-700">{error}</p>
+                    </div>
+                </div>
+            )}
+
+                        {/* Booking Summary */}
             {bookingData.startDate && bookingData.endDate && bookingData.startTime && bookingData.endTime && (
                 <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
                     <h4 className="text-sm font-medium text-blue-800 mb-3">Booking Summary</h4>
@@ -101,13 +163,13 @@ const UserPaymentForm = ({ vehicleId, bookingData, onClose, vehicle }) => {
 
             {/* Payment Button */}
             <button
-                className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-lg  flex items-center justify-center"
-                onClick={() => {
-                    // Add Khalti payment integration logic here
-                    console.log('Initiating Khalti payment...');
-                }}
+                className={`w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center ${
+                    isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                onClick={handleKhaltiCheckOut}
+                disabled={isLoading}
             >
-                Pay via Khalti
+                {isLoading ? 'Processing...' : 'Pay via Khalti'}
             </button>
         </div>
     );

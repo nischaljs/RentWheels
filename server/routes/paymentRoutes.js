@@ -9,6 +9,8 @@ router.post('/create', authMiddleware("USER"), paymentController.createPayment);
 // Route to fetch payment details by payment ID
 router.get('/:paymentId', authMiddleware("USER"), paymentController.getPaymentDetails);
 
+router.post('/verify-payment', paymentController.verifyPayment);
+
 // Route to fetch all payments for a user
 router.get('/user/:userId', authMiddleware("USER"), paymentController.getUserPayments);
 

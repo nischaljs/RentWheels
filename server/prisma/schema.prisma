@@ -19,6 +19,7 @@ model User {
   bookings  Booking[]
   reviews   Review[]
   vehicles  Vehicle[]
+  Payment   Payment[]
 }
 
 model Vehicle {
@@ -45,46 +46,52 @@ model Vehicle {
 }
 
 model AvailabilitySlot {
-  id            Int      @id @default(autoincrement())
-  vehicleId     Int
-  dayOfWeek     String?  // Nullable to allow specific dates
-  startTime     String
-  endTime       String
-  specificDate  DateTime? // Optional for one-time slots
-  recurring     Boolean   
-  vehicle       Vehicle   @relation(fields: [vehicleId], references: [id])
+  id           Int       @id @default(autoincrement())
+  vehicleId    Int
+  dayOfWeek    String? // Nullable to allow specific dates
+  startTime    String
+  endTime      String
+  specificDate DateTime? // Optional for one-time slots
+  recurring    Boolean
+  vehicle      Vehicle   @relation(fields: [vehicleId], references: [id])
 
   @@index([vehicleId], map: "AvailabilitySlot_vehicleId_fkey")
 }
 
-
 model Booking {
-  id             Int      @id @default(autoincrement())
+  id              String        @id @default(uuid())
   renterId       Int
   vehicleId      Int
   startDate      DateTime
   endDate        DateTime
   totalPrice     Float
-  driverRequired Boolean  @default(false)
-  paymentId      Int?     @unique
-  renter         User     @relation(fields: [renterId], references: [id])
-  vehicle        Vehicle  @relation(fields: [vehicleId], references: [id])
+  driverRequired Boolean       @default(false)
+  paymentId      Int?          @unique
+  renter         User          @relation(fields: [renterId], references: [id])
+  vehicle        Vehicle       @relation(fields: [vehicleId], references: [id])
   payment        Payment?
-  status         BookingStatus  @default(CONFIRMED)
+  status         BookingStatus @default(CONFIRMED)
 
   @@index([renterId], map: "Booking_renterId_fkey")
   @@index([vehicleId], map: "Booking_vehicleId_fkey")
 }
 
 model Payment {
-  id              Int         @id @default(autoincrement())
-  bookingId       Int         @unique
+  id              Int           @id @default(autoincrement())
+  userId          Int
+  bookingId       String           @unique
   amount          Float
-  token           String      // Khalti transaction token for verification/refund
   status          PaymentStatus
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  booking         Booking     @relation(fields: [bookingId], references: [id])
+  purchaseOrderId String        @unique
+  transactionId   String?
+  pidx            String?
+  paymentUrl      String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  user            User          @relation(fields: [userId], references: [id])
+  booking         Booking       @relation(fields: [bookingId], references: [id])
+
+  @@index([userId], map: "Payment_userId_fkey")
   @@index([bookingId], map: "Payment_bookingId_fkey")
 }
 
@@ -123,14 +130,13 @@ enum Transmission {
   AUTOMATIC
 }
 
-enum BookingStatus{
+enum BookingStatus {
   CANCELLED
   PENDING
   CONFIRMED
   COMPLETED
   EXPIRED
 }
-
 
 enum PaymentStatus {
   PENDING

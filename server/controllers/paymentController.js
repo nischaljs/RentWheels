@@ -4,10 +4,23 @@ const handleErrors = require('../utils/handleErrors'); // Import your error hand
 // Controller to create a new payment
 exports.createPayment = async (req, res) => {
     try {
-        const { amount, bookingId } = req.body; 
-        const userId = req.user.id; 
-        const payment = await paymentService.createPayment({ userId, amount, bookingId,token });
+        const data = req.body;
+        const userId = req.user.userId; 
+        const payment = await paymentService.createPayment({ userId, ...data });
+        console.log("just before sending response in payment we have",payment);
         res.status(201).json({ success: true, data: payment });
+    } catch (error) {
+        handleErrors(res, error);
+    }
+};
+
+exports.verifyPayment = async (req, res) => {
+    try {
+        const data = req.body;
+        console.log("data in verify payment",data);
+        const payment = await paymentService.verifyPayment(data);
+        console.log("payment in verify payment",payment);
+        res.status(200).json({ success: true, data: payment });
     } catch (error) {
         handleErrors(res, error);
     }

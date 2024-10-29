@@ -11,6 +11,8 @@ import OwnerDashboard from '../pages/OwnerDashboard';
 import UserDashboard from '../pages/UserDashboard';
 import Layout from '../components/Layout';
 import VehicleProfile from '../pages/VehicleProfile';
+import PaymentSuccess from '../pages/PaymentSuccess';
+import PaymentSuccessHandler from '../pages/PaymentSuccessHandler';
 
 const AppRoutes = () => {
   return (
@@ -73,7 +75,20 @@ const AppRoutes = () => {
           path="/vehicle/:vehicleId" 
           element={<VehicleProfile />} 
         />
+
+        {/* {Payment Successful route} */}
+        <Route 
+        path='/payment/success'
+        element={<PaymentSuccessHandler />}
+        />
+
+        {/* Payment Verfied route */} 
+        <Route
+        path='/payment/verified'
+        element={<PaymentSuccess />}
+        />
       </Route>
+
 
       {/* 404 Not Found route */}
       <Route path="*" element={<NotFound />} />

@@ -4,9 +4,9 @@ const bookingController = require('../controllers/bookingController');
 const router = express.Router();
 
 router.get('/bookings',authMiddleware("USER"),bookingController.getAllUserBookings);
-router.get('/bookings/:id',authMiddleware("USER"),bookingController.getBookingById);
+router.get('/:id',authMiddleware("USER"),bookingController.getBookingById);
 
-router.post('/bookings',authMiddleware("USER"),bookingController.bookVehicle);
+router.post('/create',authMiddleware("USER"),bookingController.bookVehicle);
 router.put('/bookings/:id',authMiddleware("USER"),bookingController.updateBooking);
 router.delete('/bookings/:id',authMiddleware("USER"),bookingController.cancelBooking);
 

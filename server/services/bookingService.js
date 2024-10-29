@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 // Create a new booking
 exports.bookVehicle = async (bookingData) => {
-    const { vehicleId, renterId, startDate, endDate, totalPrice, driverRequired } = bookingData;
+    const { vehicleId, renterId, startDate, endDate, totalPrice, driverRequired, status } = bookingData;
     return await prisma.booking.create({
         data: {
             vehicleId,
@@ -11,7 +11,8 @@ exports.bookVehicle = async (bookingData) => {
             startDate,
             endDate,
             totalPrice,
-            driverRequired
+            driverRequired,
+            status
         }
     });
 };
@@ -30,6 +31,9 @@ exports.getBookingById = async (id) => {
     return await prisma.booking.findUnique({
         where: {
             id
+        },
+        include:{
+            vehicle:true
         }
     });
 };

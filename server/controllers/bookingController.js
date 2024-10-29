@@ -23,8 +23,10 @@ exports.getBookingById = async (req, res) => {
 
 exports.bookVehicle = async (req, res) => {
     try {
-        const bookingData =validateSchema(bookingSchema, req.body);
-        const booking = await bookingService.bookVehicle(bookingData);
+        // const bookingData =validateSchema(bookingSchema, req.body);
+        const bookingData = req.body;
+        const renterId = req.user.userId;
+        const booking = await bookingService.bookVehicle({...bookingData, renterId});
         res.status(201).json({ success: true, data: booking });
     } catch (error) {
         handleErrors(res, error);
