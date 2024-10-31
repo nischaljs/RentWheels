@@ -22,13 +22,13 @@ const handleErrors = (err, req, res, next) => {
   console.error('Error:', {
     statusCode,
     message,
-    stack: err.stack
+    // stack: err.stack
   });
 
   return res.status(statusCode).json({
     success: false,
     message,
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+    // ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
   });
 };
 

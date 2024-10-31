@@ -13,6 +13,7 @@ import Layout from '../components/Layout';
 import VehicleProfile from '../pages/VehicleProfile';
 import PaymentSuccess from '../pages/PaymentSuccess';
 import PaymentSuccessHandler from '../pages/PaymentSuccessHandler';
+import UserAllPaymentDetails from '../pages/UserAllPaymentDetails';
 
 const AppRoutes = () => {
   return (
@@ -86,6 +87,12 @@ const AppRoutes = () => {
         <Route
         path='/payment/verified'
         element={<PaymentSuccess />}
+        />
+
+        {/* All user payment  route */}
+        <Route
+        path='/paymentdetails'
+        element={<UserAllPaymentDetails />}
         />
       </Route>
 

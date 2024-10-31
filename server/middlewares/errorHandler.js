@@ -39,7 +39,7 @@ const errorHandler = (err, req, res, next) => {
 
   res.status(statusCode).json({
     ...formattedError,
-    ...(process.env.NODE_ENV === 'development' ? { stack: err.stack } : {})
+    // ...(process.env.NODE_ENV === 'development' ? { stack: err.stack } : {})
   });
 };
 

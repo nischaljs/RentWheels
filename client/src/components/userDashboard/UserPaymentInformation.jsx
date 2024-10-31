@@ -7,9 +7,12 @@ import {
   Clock,
   RefreshCw,
   AlertCircle,
+  ExternalLink,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const UserPaymentInformation = ({ payment }) => {
+  const navigate = useNavigate();
   // Helper function to format date
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -125,6 +128,13 @@ const UserPaymentInformation = ({ payment }) => {
           </div>
         </div>
       </div>
+      <button
+              onClick={() => navigate('/paymentdetails')}
+              className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 transition-colors"
+            >
+              <span>View All Payments History</span>
+              <ExternalLink className="w-4 h-4" />
+            </button>
     </div>
   );
 };

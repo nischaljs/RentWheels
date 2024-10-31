@@ -10,6 +10,11 @@ const UsersRentals = ({ rentals }) => {
         return 'bg-gray-50 text-gray-700 border-gray-100';
       case 'pending':
         return 'bg-yellow-50 text-yellow-700 border-yellow-100';
+      case 'paid':
+        return 'bg-blue-50 text-blue-700 border-yellow-100';
+      case 'cancelled':
+        return 'bg-red-50 text-red-700 border-red-100';
+
       default:
         return 'bg-gray-50 text-gray-700 border-gray-100';
     }

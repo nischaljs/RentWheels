@@ -136,6 +136,7 @@ enum BookingStatus {
   CONFIRMED
   COMPLETED
   EXPIRED
+  PAID
 }
 
 enum PaymentStatus {

@@ -44,8 +44,9 @@ exports.getPaymentDetails = async (req, res) => {
 
 // Controller to fetch all payments for a user
 exports.getUserPayments = async (req, res) => {
+    console.log("inside get user payments");
     try {
-        const userId = req.params.userId; 
+        const userId = req.user.userId; 
         const payments = await paymentService.getUserPayments(userId);
         res.status(200).json({ success: true, data: payments });
     } catch (error) {

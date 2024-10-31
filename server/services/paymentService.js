@@ -171,7 +171,21 @@ exports.verifyPayment = async ({ pidx, transaction_id,purchase_order_id }) => {
                 }
             });
             console.log("updatedPayment backend", updatedPayment);
-            return updatedPayment;
+            if(updatedPayment){
+                const updatedBooking = await prisma.booking.update({
+                    where: { id: updatedPayment.bookingId },
+                    data: {
+                        status: 'PAID',
+                        paymentId: updatedPayment.id,
+                    }
+                });
+                console.log("updatedBooking", updatedBooking);
+                return updatedPayment;
+            }
+            else{
+                throw new CustomError('Payment verification failed', 400);
+            }
+            
         } else {
             throw new CustomError('Payment verification failed', 400);
         }
@@ -205,15 +219,11 @@ exports.getPaymentDetails = async (paymentId) => {
 
 
 exports.getUserPayments = async (userId) => {
+    console.log("userId", userId);
     const payments = await prisma.payment.findMany({
-        where: { userId },
-        select: {
-            id: true,
-            amount: true,
-            status: true,
-            createdAt: true,
-        }
+        where: { userId }
     });
+    console.log("payments", payments);
     return payments;
 };
 

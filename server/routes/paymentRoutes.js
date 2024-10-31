@@ -12,7 +12,7 @@ router.get('/:paymentId', authMiddleware("USER"), paymentController.getPaymentDe
 router.post('/verify-payment', paymentController.verifyPayment);
 
 // Route to fetch all payments for a user
-router.get('/user/:userId', authMiddleware("USER"), paymentController.getUserPayments);
+router.get('/user/getpaymentDetails', authMiddleware("USER"), paymentController.getUserPayments);
 
 // Route to refund a payment
 router.post('/refund/:paymentId', authMiddleware("USER"), paymentController.refundPayment);
