@@ -35,12 +35,12 @@ const UserPaymentForm = ({ vehicleId, bookingData, onClose, vehicle }) => {
                 driverRequired: bookingData.driverRequired
             });
     
-            console.log("bookingResponse", bookingResponse.data.data);
+            
             if (bookingResponse.status !== 201) throw new Error('Booking creation failed');
     
             const pendingBookingData = bookingResponse.data.data;
     
-            console.log("purchase_order_id", pendingBookingData.id);
+            
             const paymentResponse = await api.post(`/payments/create`, {
                 amount: totalPrice,
                 purchase_order_id: pendingBookingData.id,
@@ -50,7 +50,7 @@ const UserPaymentForm = ({ vehicleId, bookingData, onClose, vehicle }) => {
                 return_url: 'http://localhost:3000/payment/success',
                 website_url: 'http://localhost:3000'
             });
-            console.log("paymentResponse", paymentResponse.data);
+           
     
             if (!paymentResponse.data.success) throw new Error(paymentResponse.data.message);
     

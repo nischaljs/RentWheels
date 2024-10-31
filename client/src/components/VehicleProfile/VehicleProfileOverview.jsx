@@ -2,7 +2,6 @@ import React from 'react';
 import { Car, User, Settings, Shield, Mail, Phone } from 'lucide-react';
 
 const VehicleProfileOverview = ({ vehicle }) => (
-    console.log("vehicle details received", vehicle),
   <div className="space-y-8">
     <div>
       <h2 className="text-2xl font-semibold mb-6">Vehicle Features</h2>
@@ -40,7 +39,7 @@ const FeatureItem = ({ icon: Icon, title, description }) => (
 );
 
 const OwnerInfo = ({ owner }) => (
-    console.log("owner details received", owner),
+
   <div className="bg-gray-50 rounded-xl p-6">
     <div className="flex items-center space-x-6">
       <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">

@@ -14,6 +14,12 @@ const authMiddleware = require('../middlewares/authMiddleware');
 
 router.get("/listedVehicles", authMiddleware("OWNER"), paginatedResults('Vehicle', getOwnerFilter), ownerController.getVehicles);
 
+router.get("/stats", authMiddleware("OWNER"),  ownerController.getStats);
+
+router.get("/bookings", authMiddleware("OWNER"), ownerController.getBookings);
+
+router.get("/reviews", authMiddleware("OWNER"), ownerController.getReviews);
+
 
 //route for owner to see the booking of the vehicle
 

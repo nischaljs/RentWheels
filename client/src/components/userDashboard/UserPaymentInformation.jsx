@@ -55,7 +55,7 @@ const UserPaymentInformation = ({ payment }) => {
     };
   };
 
-  console.log('payment', payment);
+  
   // Handle cases when no payment is available
   if (!payment) {
     return (

@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Users, Car, Calendar, CreditCard } from 'lucide-react';
 
-const StatsCard = ({ title, value, icon: Icon, trend }) => (
-  <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow">
+const StatsCard = ({ title, value, icon: Icon, trend }) => {
+  if(value === undefined) return null;
+  else return(
+    <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow">
     <div className="flex items-center justify-between">
       <div className="flex flex-col">
         <p className="text-sm font-medium text-gray-500">{title}</p>
-        <p className="text-2xl font-bold mt-1 text-gray-900">{value.toLocaleString()}</p>
+        <p className="text-2xl font-bold mt-1 text-gray-900">{value}</p>
       </div>
       <div className="rounded-full bg-blue-50 p-3">
         <Icon className="w-6 h-6 text-blue-600" />
@@ -22,38 +24,11 @@ const StatsCard = ({ title, value, icon: Icon, trend }) => (
       </div>
     )}
   </div>
-);
+  )
+};
 
-const DashboardStats = () => {
-  const [stats, setStats] = useState({
-    totalUsers: 0,
-    totalVehicles: 0,
-    totalBookings: 0,
-    totalPayments: 0,
-  });
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        // Uncomment the line below to fetch data from the API
-        // const response = await axios.get('/api/dashboard/stats');
-        // setStats(response.data);
-        
-        // Sample data for now
-        const sampleStats = {
-          totalUsers: 50,
-          totalVehicles: 25,
-          totalBookings: 100,
-          totalPayments: 75,
-        };
-        setStats(sampleStats);
-      } catch (error) {
-        console.error('Error fetching dashboard stats:', error);
-      }
-    };
-    fetchStats();
-  }, []);
-
+const DashboardStats = ({stats}) => {
+  console.log("stats",stats);
   const statsConfig = [
     {
       title: 'Total Users',

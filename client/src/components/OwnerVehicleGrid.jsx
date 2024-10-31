@@ -7,14 +7,14 @@ const OwnerVehicleGrid = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const limit =4;
+  const limit =3;
 
   const fetchVehicles = async (page) => {
     setLoading(true);
     try {
       const response = await api.get(`owner/listedVehicles?page=${page}&limit=${limit}`);
       setVehicles(response.data.data.results);
-      console.log(response.data.data);
+      
       
       setTotalPages(Math.ceil(response.data.data.total/limit)); // Assuming `totalPages` is available in response
     } catch (error) {

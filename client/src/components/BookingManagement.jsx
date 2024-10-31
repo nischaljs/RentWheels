@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import api from '../services/api';
 
 const BookingManagement = () => {
   const [bookings, setBookings] = useState([]);
@@ -6,16 +7,10 @@ const BookingManagement = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        // Uncomment the line below to fetch data from the API
-        // const response = await axios.get('/api/bookings');
-        // setBookings(response.data);
-
-        // Sample data for now
-        const sampleBookings = [
-          { id: 1, vehicleName: 'Tesla Model X', renterName: 'John Doe', status: 'CONFIRMED' },
-          { id: 2, vehicleName: 'Land Rover Defender', renterName: 'Jane Smith', status: 'COMPLETED' },
-        ];
-        setBookings(sampleBookings);
+        // Fetch bookings from the server
+        const response = await api('/owner/bookings');
+        console.log('Bookings:', response.data);
+        setBookings(response.data.data);  
       } catch (error) {
         console.error('Error fetching bookings:', error);
       }

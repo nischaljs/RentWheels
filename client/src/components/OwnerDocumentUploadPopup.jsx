@@ -1,12 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, Upload, AlertTriangle, FileText, Check } from 'lucide-react';
 import api from '../services/api';
+
 
 const OwnerDocumentUploadPopup = ({ vehicleId, onClose }) => {
   const [documentType, setDocumentType] = useState('');
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [InputDisabled, setInputDisabled] = useState(false);
+
+  const imageBaseUrl = import.meta.env.VITE_IMG_URL;
+
+  useEffect(() => {
+    const fetchVehicleDocuments = async () => {
+      try {
+        const response = await api.get(`/documents/vehicle/${vehicleId}`);
+        
+
+        if(response.data.success){
+          setInputDisabled(true);
+          setDocumentType(response.data.data[0].type);
+          setPreviewUrl(`${imageBaseUrl}/${response.data.data[0].fileUrl}`);
+        }
+
+        
+      } catch (error) {
+        console.error('Failed to fetch vehicle documents:', error);
+      }
+    };
+
+    fetchVehicleDocuments();  
+  }, []);
 
   const documentTypes = [
     { value: 'bluebook', label: 'Vehicle Blue Book' },
@@ -36,8 +61,15 @@ const OwnerDocumentUploadPopup = ({ vehicleId, onClose }) => {
     formData.append('documentType', documentType);
     formData.append('vehicleId', vehicleId);
 
+
     try {
-      await api.post('/vehicle-documents', formData);
+      await api.post('/documents/upload', formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data', // This header is important
+          },
+        }
+      );
       onClose();
     } catch (error) {
       console.error('Error uploading document:', error);
@@ -47,7 +79,7 @@ const OwnerDocumentUploadPopup = ({ vehicleId, onClose }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg w-[500px] max-w-[95vw]">
+    <div className="bg-white rounded-xl shadow-lg w-[500px] my-2 max-w-[95vw]">
       {/* Header */}
       <div className="p-6 border-b border-gray-100">
         <div className="flex justify-between items-center">
@@ -71,6 +103,7 @@ const OwnerDocumentUploadPopup = ({ vehicleId, onClose }) => {
           <div className="text-sm text-amber-700">
             <p className="font-semibold mb-1">Important Instructions:</p>
             <ul className="list-disc ml-4 space-y-1">
+              <li>Documents can only be uploaded once and can't be edited</li>
               <li>Vehicle Blue Book is the preferred document for verification</li>
               <li>All documents must be clear, legible and valid</li>
               <li>Documents should be in PDF, JPG, or PNG format (max 5MB)</li>
@@ -91,6 +124,7 @@ const OwnerDocumentUploadPopup = ({ vehicleId, onClose }) => {
           <select
             value={documentType}
             onChange={(e) => setDocumentType(e.target.value)}
+            disabled={InputDisabled}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
             required
           >
@@ -115,6 +149,7 @@ const OwnerDocumentUploadPopup = ({ vehicleId, onClose }) => {
               accept=".pdf,.jpg,.jpeg,.png"
               className="hidden"
               id="document-upload"
+              disabled={InputDisabled}
               required
             />
             <label
@@ -157,7 +192,7 @@ const OwnerDocumentUploadPopup = ({ vehicleId, onClose }) => {
           </button>
           <button
             type="submit"
-            disabled={!file || !documentType || isUploading}
+            disabled={!file || !documentType || isUploading || InputDisabled}
             className={`px-4 py-2 text-white rounded-lg transition-colors flex items-center gap-2
               ${isUploading || !file || !documentType 
                 ? 'bg-gray-400 cursor-not-allowed' 

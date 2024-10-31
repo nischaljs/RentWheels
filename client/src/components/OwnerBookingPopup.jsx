@@ -94,9 +94,9 @@ export default function AvailabilityManager({ vehicleId, onClose }) {
       // Remove the id property before saving
       const slotsToSave = slots.map(({ id, ...slot }) => ({ ...slot }));
   
-      console.log('Saving slots:', slotsToSave);  
+      
       const response = await api.post('/availability', { vehicleId, slots: slotsToSave });
-      console.log('Slots saved successfully:', response, slotsToSave);
+      
       onClose(); // Close the modal after saving
     } catch (error) {
       console.error('Error saving slots:', error);

@@ -22,7 +22,6 @@ const CarsGrid = () => {
 
         const { data, paginationDetails } = response.data;
         setCars(data);
-        console.log(data);
         
         setTotalPages(Math.ceil(paginationDetails.total / carsPerPage)); // Calculate total pages based on backend response
       } catch (error) {

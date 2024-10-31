@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 
 const ReviewManagement = () => {
   const [reviews, setReviews] = useState([]);
@@ -7,16 +7,10 @@ const ReviewManagement = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        // Uncomment the line below to fetch data from the API
-        // const response = await axios.get('/api/reviews');
-        // setReviews(response.data);
-
-        // Sample data for now
-        const sampleReviews = [
-          { id: 1, vehicleName: 'Tesla Model X', rating: 5, comment: 'Great experience!' },
-          { id: 2, vehicleName: 'Land Rover Defender', rating: 4, comment: 'Very comfortable.' },
-        ];
-        setReviews(sampleReviews);
+        // Fetch reviews from the server
+        const response = await api.get('/owner/reviews');
+        console.log('Reviews:', response.data.data);
+        setReviews(response.data.data);
       } catch (error) {
         console.error('Error fetching reviews:', error);
       }
