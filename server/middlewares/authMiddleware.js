@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 
 const authMiddleware = (role) => {
-    console.log("role passed to middleware:", role);
+    
     return async (req, res, next) => {
-        console.log("role of the requested person should be " + role);
+        
         
         const authHeader = req.header('Authorization');
         let token;
@@ -24,13 +24,13 @@ const authMiddleware = (role) => {
         }
 
         try {
-            console.log(token);
+            
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            console.log(decoded);
+            
             
 
             req.user = decoded;
-            console.log("decoded user here ");
+            
             
 
             // Check for role if necessary
@@ -41,9 +41,9 @@ const authMiddleware = (role) => {
                 });
             }
 
-            console.log("procedding to next");
+            
             next();
-            console.log("after procedding to next");
+            
             return;
         } catch (error) {
             return res.status(400).json({

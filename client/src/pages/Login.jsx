@@ -33,7 +33,7 @@ const Login = () => {
         password,
         role: selectedRole.toUpperCase()
       });
-      console.log(response.data);
+      
       
 
       if (response.data.success) {

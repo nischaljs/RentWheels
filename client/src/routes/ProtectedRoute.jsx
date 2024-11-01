@@ -6,7 +6,7 @@ import LoadingPage from '../pages/Loading';
 const ProtectedRoute = ({ allowedRoles, children }) => {
   const { user, loading } = useAuth();
 
-  console.log("User:", user);
+  
 
   if (loading) {
     return <LoadingPage />;
@@ -14,13 +14,13 @@ const ProtectedRoute = ({ allowedRoles, children }) => {
 
   // Redirect if not logged in
   if (!user) {
-    console.log("No user, redirecting to login...");
+    
     return <Navigate to="/login" replace />;
   }
 
   // Redirect if user role is not allowed
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    console.log(`User role (${user.role}) not allowed. Redirecting to unauthorized...`);
+    
     return <Navigate to="/unauthorized" replace />;
   }
 

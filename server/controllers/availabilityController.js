@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 async function addAvailabilitySlots(req, res) {
   try {
     const slots = req.body.slots;
-    console.log("slots to be added " + slots);
+    
 
     // Validate all slots
     for (const slot of slots) {
@@ -17,7 +17,7 @@ async function addAvailabilitySlots(req, res) {
         return res.status(400).json({ error: 'Time slot overlaps with existing availability' });
       }
     }
-    console.log("slots to be added " + slots);
+    
 
     // Create all slots
     const createdSlots = await Promise.all(slots.map(slot => 
@@ -78,7 +78,6 @@ async function deleteAvailabilitySlot(req, res) {
 async function checkVehicleAvailability(req, res) {
   try {
     const { vehicleId, startDate, endDate, startTime, endTime } = req.body;
-    console.log("vehicleId " + vehicleId + " startDate " + startDate + " endDate " + endDate + " startTime " + startTime + " endTime " + endTime);
 
     const checkDate = new Date(startDate);
     const endCheckDate = new Date(endDate);

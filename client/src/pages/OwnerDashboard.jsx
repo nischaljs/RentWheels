@@ -24,7 +24,7 @@ const OwnerDashboard = () => {
     const fetchOwnerStats = async()=>{
       try {
         const response = await api.get('/owner/stats');
-        console.log("owner stats" + response.data);
+        
         setOwnerStats(response.data.data);
       } catch (error) {
         console.error(error);

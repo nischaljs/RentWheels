@@ -13,7 +13,6 @@ const PublicRoute = ({ children }) => {
 
   // Redirect authenticated users to the homepage
   if (user) {
-    console.log("User is already logged in, redirecting to homepage...");
     return <Navigate to="/" replace />;
   }
 

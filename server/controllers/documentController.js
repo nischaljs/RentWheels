@@ -14,7 +14,6 @@ const getDocumentByVehicleId = async (req, res) => {
 };
 
 const uploadDocument = async (req, res) => {
-    console.log('Incoming file:', req.file);
     try {
         const imagePath = req.file ? req.file.path.replace(/^public/, '') : null;
         const {vehicleId, documentType} = req.body;

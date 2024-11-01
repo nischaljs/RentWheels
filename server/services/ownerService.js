@@ -39,7 +39,7 @@ exports.getStats = async (req) => {
       },
     });
   
-    console.log(totalUsers,totalVehicles,totalBookings,totalPayments);
+    
     return {
       totalUsers, 
       totalVehicles,

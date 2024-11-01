@@ -16,7 +16,7 @@ const PaymentSuccessHandler = () => {
             const purchase_order_id = searchParams.get('purchase_order_id');
 
 
-            console.log("pidx, transaction_id, amount, status, purchase_order_id", pidx, transaction_id, amount, status, purchase_order_id);
+            
 
             if (status !== 'Completed') {
                 navigate('/booking/failed', { replace: true });
@@ -31,7 +31,7 @@ const PaymentSuccessHandler = () => {
                     status,
                     purchase_order_id,
                 });
-                console.log("response in verify payment", response.data);
+                
 
                 if (response.data.success) {
 

@@ -67,7 +67,7 @@ const Register = () => {
         window.location.href = `/${selectedRole}/dashboard`; 
       }
     } catch (err) {
-      console.log(err);
+      
       
       setError('Registration failed. Please try again.');
     } finally {

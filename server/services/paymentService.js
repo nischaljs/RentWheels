@@ -14,7 +14,7 @@ exports.createPayment = async ({
     website_url, 
     customer_info 
 }) => {
-    console.log("=== Starting Payment Creation ===");
+
     let payment = null;
 
     try {
@@ -23,7 +23,7 @@ exports.createPayment = async ({
             throw new CustomError('Missing required parameters', 400);
         }
 
-        console.log("** Creating pending payment record **");
+        
         payment = await prisma.payment.create({
             data: {
                 userId,
@@ -39,7 +39,7 @@ exports.createPayment = async ({
                 createdAt: true,
             }
         });
-        console.log("** Payment record created **", payment);
+        
 
         // Format amount to paisa (Khalti expects amount in paisa)
         const amountInPaisa = Math.round(amount * 100);
@@ -63,7 +63,7 @@ exports.createPayment = async ({
             }
         };
 
-        console.log("** Khalti Payload **", JSON.stringify(khaltiPayload, null, 2));
+        
 
         // Make request to Khalti API
         const khaltiResponse = await axios.post(
@@ -77,7 +77,7 @@ exports.createPayment = async ({
             }
         );
 
-        console.log("** Khalti API Response **", khaltiResponse.data);
+        
 
         if (!khaltiResponse.data.payment_url || !khaltiResponse.data.pidx) {
             throw new CustomError('Invalid response from Khalti', 400);
@@ -92,8 +92,8 @@ exports.createPayment = async ({
             }
         });
 
-        console.log("** Payment record updated with Khalti details **", updatedPayment);
-        console.log("=== Payment Creation Successful ===",khaltiResponse.data.payment_url, payment.id);
+        
+        
 
         return {
             paymentInitiationUrl: khaltiResponse.data.payment_url,
@@ -102,7 +102,7 @@ exports.createPayment = async ({
 
     } catch (error) {
         console.error("=== Payment Creation Error ===");
-        console.error("Error Type:", error.constructor.name);
+        
         console.error("Error Message:", error.message);
         
         if (error.response) {
@@ -122,7 +122,7 @@ exports.createPayment = async ({
                         status: 'FAILED',
                     }
                 });
-                console.log("** Payment record marked as FAILED **");
+                
             } catch (updateError) {
                 console.error("Failed to update payment status:", updateError);
             }
@@ -147,7 +147,7 @@ exports.createPayment = async ({
 
 // Callback Function for Khalti Payment Verification
 exports.verifyPayment = async ({ pidx, transaction_id,purchase_order_id }) => {
-    console.log("verifyPayment callaback reached purchase order id", pidx, transaction_id ,purchase_order_id);
+    
     try {
         // Step 5: Verify the payment status from Khalti (assumes Khalti calls this route after payment completion)
         const verifyResponse = await axios.post(`${process.env.KHALTI_API}/epayment/lookup/`, { pidx }, {
@@ -156,7 +156,7 @@ exports.verifyPayment = async ({ pidx, transaction_id,purchase_order_id }) => {
                 'Content-Type': 'application/json',
             }
         });
-        console.log("verifyResponse", verifyResponse.data);
+        
 
         if (verifyResponse.data.status === 'Completed') {
             // Step 6: Update the payment status to COMPLETED
@@ -170,7 +170,7 @@ exports.verifyPayment = async ({ pidx, transaction_id,purchase_order_id }) => {
                     updatedAt: new Date(),
                 }
             });
-            console.log("updatedPayment backend", updatedPayment);
+            
             if(updatedPayment){
                 const updatedBooking = await prisma.booking.update({
                     where: { id: updatedPayment.bookingId },
@@ -179,7 +179,7 @@ exports.verifyPayment = async ({ pidx, transaction_id,purchase_order_id }) => {
                         paymentId: updatedPayment.id,
                     }
                 });
-                console.log("updatedBooking", updatedBooking);
+                
                 return updatedPayment;
             }
             else{
@@ -219,11 +219,11 @@ exports.getPaymentDetails = async (paymentId) => {
 
 
 exports.getUserPayments = async (userId) => {
-    console.log("userId", userId);
+    
     const payments = await prisma.payment.findMany({
         where: { userId }
     });
-    console.log("payments", payments);
+    
     return payments;
 };
 

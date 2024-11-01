@@ -19,8 +19,6 @@ exports.getAvailableVehicles = async (req, res) => {
 };
 
 exports.addVehicle = async (req, res) => {
-  console.log('Incoming request body:', req.body);
-  console.log('Incoming file:', req.file);
 
   try {
       const data = req.body;
@@ -68,7 +66,6 @@ exports.searchVehicles = async (req, res) => {
 
 exports.updateVehicle = async (req, res) => {
   try {
-    console.log('Incoming request body to update vehicle:', req.body);
     // const validatedData = validateSchema(updateVehicleSchema, req.body);
     const vehicleId = parseInt(req.params.id);
     const updatedVehicle = await vehicleService.updateVehicle(vehicleId, req.body);

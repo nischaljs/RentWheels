@@ -147,7 +147,7 @@ exports.getAvailableVehicles = async () => {
           approved:true  
         },
       });
-      console.log(availableVehicles);
+      
       
       
       return availableVehicles;

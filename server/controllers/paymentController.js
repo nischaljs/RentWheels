@@ -7,7 +7,7 @@ exports.createPayment = async (req, res) => {
         const data = req.body;
         const userId = req.user.userId; 
         const payment = await paymentService.createPayment({ userId, ...data });
-        console.log("just before sending response in payment we have",payment);
+        
         res.status(201).json({ success: true, data: payment });
     } catch (error) {
         handleErrors(res, error);
@@ -17,9 +17,9 @@ exports.createPayment = async (req, res) => {
 exports.verifyPayment = async (req, res) => {
     try {
         const data = req.body;
-        console.log("data in verify payment",data);
+        
         const payment = await paymentService.verifyPayment(data);
-        console.log("payment in verify payment",payment);
+        
         res.status(200).json({ success: true, data: payment });
     } catch (error) {
         handleErrors(res, error);
@@ -44,7 +44,7 @@ exports.getPaymentDetails = async (req, res) => {
 
 // Controller to fetch all payments for a user
 exports.getUserPayments = async (req, res) => {
-    console.log("inside get user payments");
+    
     try {
         const userId = req.user.userId; 
         const payments = await paymentService.getUserPayments(userId);

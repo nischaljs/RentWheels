@@ -9,7 +9,7 @@ const BookingManagement = () => {
       try {
         // Fetch bookings from the server
         const response = await api('/owner/bookings');
-        console.log('Bookings:', response.data);
+    
         setBookings(response.data.data);  
       } catch (error) {
         console.error('Error fetching bookings:', error);

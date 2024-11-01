@@ -21,7 +21,7 @@ const VehicleProfile = () => {
       try {
         const response = await api.get(`/vehicles/${vehicleId}`);
         setVehicle(response.data.data);
-        console.log(response.data.data);
+        
       } catch (err) {
         setError(err.message);
       } finally {

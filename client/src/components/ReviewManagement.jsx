@@ -9,7 +9,7 @@ const ReviewManagement = () => {
       try {
         // Fetch reviews from the server
         const response = await api.get('/owner/reviews');
-        console.log('Reviews:', response.data.data);
+        
         setReviews(response.data.data);
       } catch (error) {
         console.error('Error fetching reviews:', error);

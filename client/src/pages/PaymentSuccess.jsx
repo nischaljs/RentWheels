@@ -36,7 +36,7 @@ const PaymentSuccess = () => {
 
       try {
         const response = await api.get(`/bookings/${bookingId}`);
-        console.log("response.data.data", response.data.data);
+        
         setBookingData(response.data.data);
       } catch (error) {
         console.error('Error fetching booking details:', error);

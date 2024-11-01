@@ -26,7 +26,6 @@ app.use('/api/v1', mainRouter);
 
 // Handle payment success redirect
 app.get('/payment/success', (req, res) => {
-    console.log("payment success route", req.url);
     if (process.env.NODE_ENV != "development") {
         res.sendFile(path.join(__dirname, 'client', 'index.html'));
     }

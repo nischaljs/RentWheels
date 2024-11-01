@@ -233,26 +233,6 @@ const VehicleBookingForm = ({ onClose, vehicle, vehicleId }) => {
             return;
         }
 
-        // try {
-        //     setLoading(true);
-        //     console.log(...bookingData + "booking happened")
-        //     const response = await api.post('/bookings', {
-        //         vehicleId,
-        //         ...bookingData,
-        //         startDate: new Date(`${bookingData.startDate.toDateString()} ${bookingData.startTime}`),
-        //         endDate: new Date(`${bookingData.endDate.toDateString()} ${bookingData.endTime}`)
-        //     });
-        //     console.log(response.data);
-
-        //     if (response.status === 200) {
-        //         setSuccess('Booking confirmed successfully!');
-        //         setTimeout(onClose, 2000);
-        //     }
-        // } catch (err) {
-        //     setError('Failed to process booking. Please try again.');
-        // } finally {
-        //     setLoading(false);
-        // }
         try{
             setLoading(true);
             
@@ -268,17 +248,7 @@ const VehicleBookingForm = ({ onClose, vehicle, vehicleId }) => {
                 setError('Vehicle is not available for the selected dates');
                 return;
             }
-            // const bookingResponse = await api.post('/bookings',{
-            //     vehicleId,
-            //     ...bookingData,
-            //     startDate: new Date(`${bookingData.startDate.toDateString()} ${bookingData.startTime}`),
-            //     endDate: new Date(`${bookingData.endDate.toDateString()} ${bookingData.endTime}`)
-            // });
-            // console.log(bookingResponse.data);
-            // if(bookingResponse.status === 200){
-            //     setConfirmedBooking(true);
-            //     setTimeout(onClose, 2000);
-            // }
+
             setConfirmedBooking(true);
         }
         catch(err){

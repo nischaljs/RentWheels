@@ -28,7 +28,7 @@ const StatsCard = ({ title, value, icon: Icon, trend }) => {
 };
 
 const DashboardStats = ({stats}) => {
-  console.log("stats",stats);
+  
   const statsConfig = [
     {
       title: 'Total Users',
