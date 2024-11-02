@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import { Clock, Repeat, X, Plus, Trash2 } from 'lucide-react';
 import 'react-calendar/dist/Calendar.css';
-import api from '../services/api';
+import api from '../../services/api';
 
 const DAYS_OF_WEEK = [
   'Sunday',

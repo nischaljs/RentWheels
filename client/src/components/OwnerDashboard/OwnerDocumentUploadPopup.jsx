@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { X, Upload, AlertTriangle, FileText, Check } from 'lucide-react';
-import api from '../services/api';
+import api from '../../services/api';
 
 
 const OwnerDocumentUploadPopup = ({ vehicleId, onClose }) => {
@@ -16,9 +16,7 @@ const OwnerDocumentUploadPopup = ({ vehicleId, onClose }) => {
     const fetchVehicleDocuments = async () => {
       try {
         const response = await api.get(`/documents/vehicle/${vehicleId}`);
-        
-
-        if(response.data.success){
+        if(response.data.data.length != 0){
           setInputDisabled(true);
           setDocumentType(response.data.data[0].type);
           setPreviewUrl(`${imageBaseUrl}/${response.data.data[0].fileUrl}`);

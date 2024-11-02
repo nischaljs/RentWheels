@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Car, Check } from 'lucide-react';
-import api from '../services/api';
+import api from '../../services/api';
 
 const OwnerEditVehicleForm = ({ vehicle, onClose, onUpdate }) => {
     const [formData, setFormData] = useState({

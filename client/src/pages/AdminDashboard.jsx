@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import UserManagement from '../components/UserManagement';
-import VehicleManagement from '../components/VehicleManagement';
-import BookingManagement from '../components/BookingManagement';
-import PaymentManagement from '../components/PaymentManagement';
-import ReviewManagement from '../components/ReviewManagement';
+import UserManagement from '../components/OwnerDashboard/UserManagement';
+import VehicleManagement from '../components/OwnerDashboard/VehicleManagement';
+import BookingManagement from '../components/OwnerDashboard/BookingManagement';
+import PaymentManagement from '../components/OwnerDashboard/PaymentManagement';
+import ReviewManagement from '../components/OwnerDashboard/ReviewManagement';
 import DashboardStats from '../components/DashboardStats';
 
 const AdminDashboard = () => {

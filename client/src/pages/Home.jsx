@@ -1,11 +1,11 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
-import Hero from '../components/Hero';
-import FilterSidebar from '../components/FilterSidebar';
-import CarsGrid from '../components/CarsGrid';
-import WhyChooseUs from '../components/WhyChooseUs';
-import TestimonialsCarousel from '../components/TestimonialsCarousel';
-import Footer from '../components/Footer';
+import Navbar from '../components/Global/Navbar';
+import Hero from '../components/Home/Hero';
+import FilterSidebar from '../components/Home/FilterSidebar';
+import CarsGrid from '../components/Home/CarsGrid';
+import WhyChooseUs from '../components/Home/WhyChooseUs';
+import TestimonialsCarousel from '../components/Home/TestimonialsCarousel';
+import Footer from '../components/Global/Footer';
 
 
 

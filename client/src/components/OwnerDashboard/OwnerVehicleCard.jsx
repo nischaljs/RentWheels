@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Pen, Car, Users, Calendar, Upload, CheckCircle, XCircle, Shield, AlertTriangle, Info } from 'lucide-react';
-import api from '../services/api';
+import api from '../../services/api';
 import OwnerEditVehicleForm from './OwnerEditVehicleForm';
 import OwnerBookingPopup from './OwnerBookingPopup';
 import OwnerDocumentUploadPopup from './OwnerDocumentUploadPopup';

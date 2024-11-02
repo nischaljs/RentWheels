@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import OwnerVehicleCard from './OwnerVehicleCard';
-import api from '../services/api';
+import api from '../../services/api';
 
 const OwnerVehicleGrid = () => {
   const [vehicles, setVehicles] = useState([]);

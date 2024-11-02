@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import BookingManagement from '../components/BookingManagement'; 
-import ReviewManagement from '../components/ReviewManagement';
+import BookingManagement from '../components/OwnerDashboard/BookingManagement'; 
+import ReviewManagement from '../components/OwnerDashboard/ReviewManagement';
 import DashboardStats from '../components/DashboardStats';
-import VehicleUploadForm from '../components/VehicleUploadForm';
+import VehicleUploadForm from '../components/OwnerDashboard/VehicleUploadForm';
 import { Plus,Pen } from 'lucide-react';
-import OwnerVehicleGrid from '../components/OwnerVehicleGrid';
+import OwnerVehicleGrid from '../components/OwnerDashboard/OwnerVehicleGrid';
 import ProfileEditForm from '../components/ProfileEditForm';
 import api from '../services/api';
 

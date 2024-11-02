@@ -9,7 +9,7 @@ import PublicRoute from './PublicRoute';
 import AdminDashboard from '../pages/AdminDashboard';
 import OwnerDashboard from '../pages/OwnerDashboard';
 import UserDashboard from '../pages/UserDashboard';
-import Layout from '../components/Layout';
+import Layout from '../components/Global/Layout';
 import VehicleProfile from '../pages/VehicleProfile';
 import PaymentSuccess from '../pages/PaymentSuccess';
 import PaymentSuccessHandler from '../pages/PaymentSuccessHandler';
