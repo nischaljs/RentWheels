@@ -1,6 +1,7 @@
 // controllers/availabilityController.js
 const { PrismaClient } = require('@prisma/client');
 const availabilityService = require('../utils/availabilityService');
+const { to24Hour } = require('../utils/timeUtils');
 
 const prisma = new PrismaClient();
 
@@ -90,16 +91,19 @@ async function checkVehicleAvailability(req, res) {
     for (const slot of availableSlots) {
       const isSameDay = checkDate.toDateString() === endCheckDate.toDateString();
 
+    
       if (slot.recurring) {
         const dayName = checkDate.toLocaleDateString('en-US', { weekday: 'long' });
         const availableDays = JSON.parse(slot.dayOfWeek);
-
+        
         if (availableDays.includes(dayName)) {
           if (isSameDay) {
             // Enforce 3-hour minimum booking time if start and end are on the same day
-            const startHour = parseInt(startTime.split(':')[0], 10);
-            const endHour = parseInt(endTime.split(':')[0], 10);
-            if (endHour - startHour >= 3) {
+            const startHour = parseInt(to24Hour(startTime).split(':')[0], 10);
+            const endHour = parseInt(to24Hour(endTime).split(':')[0], 10);
+            const diff = endHour-startHour;
+            
+            if (diff >= 3) {
               isAvailable = true;
               break;
             }
@@ -111,8 +115,8 @@ async function checkVehicleAvailability(req, res) {
       } else if (slot.specificDate) {
         if (slot.specificDate.toDateString() === checkDate.toDateString()) {
           if (isSameDay) {
-            const startHour = parseInt(startTime.split(':')[0], 10);
-            const endHour = parseInt(endTime.split(':')[0], 10);
+            const startHour = parseInt(to24Hour(startTime).split(':')[0], 10);
+            const endHour = parseInt(to24Hour(endTime).split(':')[0], 10);
             if (endHour - startHour >= 3) {
               isAvailable = true;
               break;

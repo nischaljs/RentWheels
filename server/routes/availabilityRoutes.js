@@ -21,4 +21,5 @@ router.delete('/:slotId', deleteAvailabilitySlot);
 // Check vehicle availability for specific dates
 router.post('/check', checkVehicleAvailability);
 
+
 module.exports = router;

@@ -81,9 +81,6 @@ const UserReviewAndRatings = ({ reviews }) => {
             
             {/* Tags/Metadata */}
             <div className="mt-4 flex flex-wrap gap-2">
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700">
-                Verified Rental
-              </span>
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
                 {review.vehicle?.type || 'Vehicle Review'}
               </span>

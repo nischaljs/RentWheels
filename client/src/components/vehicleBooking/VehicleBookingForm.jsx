@@ -35,18 +35,36 @@ const to24Hour = (time12) => {
 };
 
 // Generate time slots
-const generateTimeSlots = (startTime, endTime, minGap = 0) => {
+const generateTimeSlots = (startTime, endTime, minGap,type) => {
     const slots = [];
-    const start = parseInt(startTime.split(':')[0]);
-    const end = parseInt(endTime.split(':')[0]);
+    let [startHour, startMinute] = to24Hour(startTime).split(':').map(Number);
+    let [endHour, endMinute] = to24Hour(endTime).split(':').map(Number);
 
-    for (let hour = start; hour <= end - minGap; hour++) {
-        slots.push(`${hour.toString().padStart(2, '0')}:00`);
-        slots.push(`${hour.toString().padStart(2, '0')}:30`);
+    // Adjust end time for minGap (in minutes)
+    if(type=="end"){
+        startHour+=minGap
+    }
+    else{
+        endHour-=minGap;
     }
 
-    return slots.map(to12Hour);
+    while (startHour < endHour || (startHour === endHour && startMinute <= endMinute)) {
+        const slot = `${startHour.toString().padStart(2, '0')}:${startMinute.toString().padStart(2, '0')}`;
+        slots.push(to12Hour(slot));
+
+        // Increment by 30 minutes
+        startMinute += 30;
+        if (startMinute >= 60) {
+            startMinute -= 60;
+            startHour += 1;
+        }
+    }
+
+    return slots;
 };
+
+
+
 
 const VehicleBookingForm = ({ onClose, vehicle, vehicleId }) => {
     const INITIAL_BOOKING_STATE = {
@@ -110,7 +128,7 @@ const VehicleBookingForm = ({ onClose, vehicle, vehicleId }) => {
 
         if (!bookingData.startDate) {
             // Selecting start date
-            const startTimes = generateTimeSlots(slot.startTime, slot.endTime, 3);
+            const startTimes = generateTimeSlots(slot.startTime, slot.endTime, 3,"start");
             setBookingData(prev => ({
                 ...prev,
                 startDate: date,
@@ -124,12 +142,7 @@ const VehicleBookingForm = ({ onClose, vehicle, vehicleId }) => {
             let endTimes = [];
             if (date.toDateString() === bookingData.startDate.toDateString()) {
                 // Same day booking - ensure 3 hour minimum
-                const startTime24 = to24Hour(bookingData.startTime);
-                const startHour = parseInt(startTime24.split(':')[0]);
-                endTimes = generateTimeSlots(
-                    `${startHour + 3}:00`,
-                    slot.endTime
-                );
+                 endTimes = generateTimeSlots(bookingData.startTime, slot.endTime,3,"end");
             } else {
                 // Multi-day booking
                 endTimes = generateTimeSlots(slot.startTime, slot.endTime);
@@ -236,13 +249,24 @@ const VehicleBookingForm = ({ onClose, vehicle, vehicleId }) => {
         try{
             setLoading(true);
             
-            const response = await api.post('/availability/check',{
+            console.log(" these are the things being sent " +JSON.stringify(
+                {
+                    vehicleId,
+                    startTime: bookingData.startTime,
+                    endTime: bookingData.endTime,
+                    startDate: new Date(`${bookingData.startDate.toDateString()} ${bookingData.startTime}`),
+                    endDate: new Date(`${bookingData.endDate.toDateString()} ${bookingData.endTime}`)
+                }
+            ))
+                const response = await api.post('/availability/check',{
                 vehicleId,
                 startTime: bookingData.startTime,
                 endTime: bookingData.endTime,
                 startDate: new Date(`${bookingData.startDate.toDateString()} ${bookingData.startTime}`),
                 endDate: new Date(`${bookingData.endDate.toDateString()} ${bookingData.endTime}`)
             })
+
+            console.log("reponse is"+ JSON.stringify(response.data));
 
             if(!response.data.isAvailable){
                 setError('Vehicle is not available for the selected dates');
