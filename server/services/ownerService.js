@@ -49,16 +49,26 @@ exports.getStats = async (req) => {
   };
 
 
-exports.getBookings = async (req) => {
+  exports.getBookings = async (req) => {
     const ownerId = req.user.userId;
     return prisma.booking.findMany({
-        where:{
-            vehicle:{
+        where: {
+            vehicle: {
                 ownerId
             }
+        },
+        include: {
+            renter: {  // Fetch renter details associated with each booking
+                select: {
+                    fullName: true,
+                    email: true,
+                    phone: true
+                }
+            },
+            vehicle: true // Optionally include vehicle details if needed
         }
     });
-}
+};
 
 exports.getReviews = async (req) => {
     const ownerId = req.user.userId;
@@ -67,6 +77,16 @@ exports.getReviews = async (req) => {
             vehicle:{
                 ownerId
             }
-        }
+        },
+        include: {
+          user: {  // Fetch renter details associated with each booking
+              select: {
+                  fullName: true,
+                  email: true,
+                  phone: true
+              }
+          },
+          vehicle: true // Optionally include vehicle details if needed
+      }
     });
 }

@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import OwnerVehicleCard from './OwnerVehicleCard';
+import React, { useEffect, useState } from 'react';
 import api from '../../services/api';
+import OwnerVehicleCard from './OwnerVehicleCard';
 
 const OwnerVehicleGrid = () => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const limit =3;
+  const limit = 3;
 
   const fetchVehicles = async (page) => {
     setLoading(true);
     try {
       const response = await api.get(`owner/listedVehicles?page=${page}&limit=${limit}`);
       setVehicles(response.data.data.results);
-      
-      
-      setTotalPages(Math.ceil(response.data.data.total/limit)); // Assuming `totalPages` is available in response
+      setTotalPages(Math.ceil(response.data.data.total / limit)); // Assuming `totalPages` is calculated from total count
     } catch (error) {
       console.error('Failed to fetch vehicles:', error);
     } finally {
@@ -24,7 +22,6 @@ const OwnerVehicleGrid = () => {
     }
   };
 
-  // Refetches the current page's data when called
   const onUpdate = () => {
     fetchVehicles(currentPage);
   };
@@ -33,8 +30,22 @@ const OwnerVehicleGrid = () => {
     fetchVehicles(currentPage);
   }, [currentPage]);
 
-  if (loading) return <div>Loading vehicles...</div>;
-  if (!vehicles || vehicles.length === 0) return <div>No vehicles available?, Why don't you list some ?</div>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-20">
+        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin"></div>
+        <span className="ml-4 text-gray-700">Loading vehicles...</span>
+      </div>
+    );
+  }
+
+  if (!vehicles || vehicles.length === 0) {
+    return (
+      <div className="flex items-center justify-center text-gray-500 text-lg mt-4">
+        No vehicles available. Why don't you list some?
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 space-y-6">
@@ -49,9 +60,8 @@ const OwnerVehicleGrid = () => {
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
-          className={`px-4 py-2 text-sm font-medium rounded-md ${
-            currentPage === 1 ? 'bg-gray-300 text-gray-500' : 'bg-blue-500 text-white hover:bg-blue-600'
-          }`}
+          className={`px-4 py-2 text-sm font-medium rounded-md ${currentPage === 1 ? 'bg-gray-300 text-gray-500' : 'bg-blue-500 text-white hover:bg-blue-600'
+            }`}
         >
           Previous
         </button>
@@ -59,9 +69,8 @@ const OwnerVehicleGrid = () => {
         <button
           onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
           disabled={currentPage === totalPages}
-          className={`px-4 py-2 text-sm font-medium rounded-md ${
-            currentPage === totalPages ? 'bg-gray-300 text-gray-500' : 'bg-blue-500 text-white hover:bg-blue-600'
-          }`}
+          className={`px-4 py-2 text-sm font-medium rounded-md ${currentPage === totalPages ? 'bg-gray-300 text-gray-500' : 'bg-blue-500 text-white hover:bg-blue-600'
+            }`}
         >
           Next
         </button>

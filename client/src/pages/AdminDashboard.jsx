@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import UserManagement from '../components/OwnerDashboard/UserManagement';
 import VehicleManagement from '../components/OwnerDashboard/VehicleManagement';
 import BookingManagement from '../components/OwnerDashboard/BookingManagement';
-import PaymentManagement from '../components/OwnerDashboard/PaymentManagement';
+import PaymentManagement from '../components/AdminDashboard/PaymentManagement';
 import ReviewManagement from '../components/OwnerDashboard/ReviewManagement';
 import DashboardStats from '../components/DashboardStats';
 

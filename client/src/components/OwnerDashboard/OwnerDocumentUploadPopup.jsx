@@ -1,5 +1,5 @@
+import { AlertTriangle, Check, FileText, Upload, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { X, Upload, AlertTriangle, FileText, Check } from 'lucide-react';
 import api from '../../services/api';
 
 
