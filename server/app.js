@@ -36,10 +36,10 @@ app.get('/payment/success', (req, res) => {
     }
 });
 
-// Fallback route for any other request
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'client', 'dist', 'index.html'));
-});
+// // Fallback route for any other request
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '..', 'client', 'dist', 'index.html'));
+// });
 
 
 app.use(errorHandler);

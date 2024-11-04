@@ -11,9 +11,9 @@ const NotifyToast = ({ type, message, duration = 3000, onClose }) => {
   };
 
   const backgroundColors = {
-    success: 'bg-green-100',
-    warning: 'bg-yellow-100',
-    error: 'bg-red-100',
+    success: 'bg-green-100 text-green-800',
+    warning: 'bg-yellow-100 text-yellow-800',
+    error: 'bg-red-100 text-red-800',
   };
 
   useEffect(() => {
@@ -28,12 +28,21 @@ const NotifyToast = ({ type, message, duration = 3000, onClose }) => {
   return (
     isVisible && (
       <div
-        className={`flex items-center p-4 rounded-md shadow-md transition-opacity duration-500 ${backgroundColors[type]} ${
+        className={`fixed bottom-4 right-4 max-w-md w-full flex items-center p-4 rounded-md shadow-md transition-opacity duration-500 ${backgroundColors[type]} ${
           isVisible ? 'opacity-100' : 'opacity-0'
         }`}
       >
         {iconTypes[type]}
-        <div className="text-sm font-medium text-gray-800">{message}</div>
+        <div className="flex-1 text-sm font-medium">{message}</div>
+        <button
+          className="text-gray-500 hover:text-gray-700 focus:outline-none"
+          onClick={() => {
+            setIsVisible(false);
+            if (onClose) onClose();
+          }}
+        >
+          <XCircle className="h-5 w-5" />
+        </button>
       </div>
     )
   );

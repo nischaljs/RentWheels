@@ -88,3 +88,27 @@ exports.login = async (loginData) => {
 
     return token;
 };
+
+
+// function createAdmin () {
+//     const password = generatePasswordHash("AdminPass3#").then((res) => {
+//         prisma.user.create({
+//             data: {
+//                 email: "admin@rentwheels.com",
+//                 password: res,
+//                 fullName: "NischalBhattarai",
+//                 phone:"9800000000",
+//                 role: "ADMIN"
+//             }
+//         })
+//         .then((res) => {
+//             console.log("Admin created successfully");
+//         })
+//         .catch((err) => {
+//             console.log(err);
+//         });
+   
+// })
+// }
+
+// createAdmin();

@@ -10,7 +10,7 @@ router.use(authMiddleware("ADMIN"));
 router.get('/users', adminController.getAllUsers);
 
 // Get all vehicles
-router.get('/vehicles', adminController.getAllVehicles);
+router.get('/notapprovedvehicles', adminController.getNotApprovedVehicles);
 
 // Get all bookings
 router.get('/bookings', adminController.getAllBookings);
@@ -21,7 +21,8 @@ router.patch('/vehicles/:id/approve', adminController.approveVehicle);
 // Reject a vehicle
 router.patch('/vehicles/:id/reject', adminController.rejectVehicle);
 
-// Delete a user
-router.delete('/users/:id', adminController.deleteUser);
+
+// /get stats 
+router.get('/getstats',adminController.getStats);
 
 module.exports = router;

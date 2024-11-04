@@ -14,8 +14,11 @@ exports.getAllUsers = async () => {
     });
 };
 
-exports.getAllVehicles = async () => {
+exports.getNotApprovedVehicles = async () => {
     return await prisma.vehicle.findMany({
+        where: {
+            approved: false,
+        },
         include: {
             owner: {
                 select: {
@@ -34,11 +37,19 @@ exports.getAllBookings = async () => {
                 select: {
                     fullName: true,
                     email: true,
+                    phone:true
                 },
             },
             vehicle: {
                 select: {
                     name: true,
+                    owner:{
+                        select:{
+                            fullName:true,
+                            email:true,
+                            phone:true
+                        }
+                    }
                 },
             },
         },
@@ -62,8 +73,24 @@ exports.rejectVehicle = async (id) => {
 };
 
 
-exports.deleteUser = async (id) => {
-    return await prisma.user.delete({
-        where: { id: parseInt(id) },
+exports.getStats = async () => {
+    const users = await prisma.user.count();
+    const vehicles = await prisma.vehicle.count();
+    const bookings = await prisma.booking.count();
+    const approvedVehicles = await prisma.vehicle.count({ where: { approved: true } });
+    const notapprovedVehicles = await prisma.vehicle.count({ where: { approved: false } });
+    const totalRevenue = await prisma.booking.aggregate({
+        _sum: {
+            totalPrice: true,
+        },
     });
+
+    return { 
+        users, 
+        vehicles, 
+        bookings, 
+        approvedVehicles, 
+        notapprovedVehicles, 
+        totalRevenue: totalRevenue._sum.totalPrice,
+    };
 };

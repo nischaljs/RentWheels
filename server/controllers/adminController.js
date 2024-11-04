@@ -1,3 +1,4 @@
+const { handleErrors } = require('../middlewares/errorHandler');
 const adminService = require('../services/adminService');
 
 exports.getAllUsers = async (req, res) => {
@@ -9,9 +10,9 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
-exports.getAllVehicles = async (req, res) => {
+exports.getNotApprovedVehicles = async (req, res) => {
     try {
-        const vehicles = await adminService.getAllVehicles();
+        const vehicles = await adminService.getNotApprovedVehicles();
         res.status(200).json({ success: true, data: vehicles });
     } catch (error) {
         handleErrors(res, error);
@@ -48,12 +49,12 @@ exports.rejectVehicle = async (req, res) => {
 };
 
 
-exports.deleteUser = async (req, res) => {
-    const { id } = req.params;
+
+exports.getStats = async (req, res) => {
     try {
-        await adminService.deleteUser(id);
-        res.status(204).send();
+        const stats = await adminService.getStats();
+        res.status(200).json({ success: true, data: stats });
     } catch (error) {
         handleErrors(res, error);
     }
-};
+}

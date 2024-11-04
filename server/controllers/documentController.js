@@ -4,6 +4,7 @@ const documentService = require('../services/documentService');
 const getDocumentByVehicleId = async (req, res) => {
     try {
         const document = await documentService.getDocumentById(req.params.vehicleId);
+        console.log(document);
         if (!document) {
             return res.status(404).json({ success:false, message: 'Document not found' });
         }
