@@ -6,13 +6,14 @@ import CarsGrid from '../components/Home/CarsGrid';
 import WhyChooseUs from '../components/Home/WhyChooseUs';
 import TestimonialsCarousel from '../components/Home/TestimonialsCarousel';
 import Footer from '../components/Global/Footer';
+import { useNavigate } from 'react-router-dom';
 
 
 
 
 const Home = () => {
 
-
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -77,7 +78,7 @@ const Home = () => {
               <h2 className="text-3xl font-bold mb-2">Ready to Get Started?</h2>
               <p className="text-blue-100">Book your premium vehicle today and experience luxury</p>
             </div>
-            <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+            <button onClick={()=>(navigate('/vehicles'))} className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
               Browse Vehicles
             </button>
           </div>

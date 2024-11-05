@@ -5,13 +5,16 @@ import VehicleProfileTabs from '../components/VehicleProfile/VehicleProfileTabs'
 import VehicleProfileTabContent from '../components/VehicleProfile/VehicleProfileTabContent';
 import VehicleProfileBookingWidget from '../components/VehicleProfile/VehicleProfileBookingWidget';
 import { useParams } from 'react-router-dom';
-import { Loader2 } from 'lucide-react';
+import { Loader2, User } from 'lucide-react';
+import OwnerAdminOptions from '../components/VehicleProfile/OwnerAdminOptions';
+import { useAuth } from '../context/AuthContext';
 
 const VehicleProfile = () => {
   const [vehicle, setVehicle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('Details');
+  const { user } = useAuth();
 
   const imgBaseUrl = import.meta.env.VITE_IMG_URL;
   const { vehicleId } = useParams();
@@ -21,7 +24,7 @@ const VehicleProfile = () => {
       try {
         const response = await api.get(`/vehicles/${vehicleId}`);
         setVehicle(response.data.data);
-        
+
       } catch (err) {
         setError(err.message);
       } finally {
@@ -65,14 +68,14 @@ const VehicleProfile = () => {
           <div className="lg:col-span-8">
             <div className="bg-white rounded-xl shadow-sm">
               <div className="border-b border-gray-200">
-                <VehicleProfileTabs 
-                  activeTab={activeTab} 
+                <VehicleProfileTabs
+                  activeTab={activeTab}
                   setActiveTab={setActiveTab}
                 />
               </div>
               <div className="p-6">
-                <VehicleProfileTabContent 
-                  activeTab={activeTab} 
+                <VehicleProfileTabContent
+                  activeTab={activeTab}
                   vehicle={vehicle}
                 />
               </div>
@@ -80,12 +83,11 @@ const VehicleProfile = () => {
           </div>
 
           {/* Booking Widget - Fixed on Desktop */}
+
           <div className="lg:col-span-4 mt-6 lg:mt-0">
             <div className="lg:sticky lg:top-28">
-              <VehicleProfileBookingWidget 
-                vehicle={vehicle}
-                className="bg-white rounded-xl shadow-sm p-6"
-              />
+              {User.role === 'USER' ? (<VehicleProfileBookingWidget />) : (<OwnerAdminOptions user={user} vehicle={vehicle} />)}
+
             </div>
           </div>
         </div>

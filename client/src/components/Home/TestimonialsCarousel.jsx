@@ -28,14 +28,14 @@ const TestimonialsCarousel = () => {
       name: "Jane Doe",
       location: "New York",
       rating: 5,
-      image: "/path/to/image1.jpg", // Replace with actual images
+      image: "https://cdn.pixabay.com/photo/2022/10/07/18/35/potrait-7505634_960_720.jpg", // Replace with actual images
     },
     {
       text: "Great experience! The car was clean and the customer service was excellent.",
       name: "John Smith",
       location: "Los Angeles",
       rating: 5,
-      image: "/path/to/image2.jpg",
+      image: "https://cdn.pixabay.com/photo/2018/01/22/07/31/portrait-3098319_960_720.jpg",
     },
     // Add more testimonials here...
   ];
@@ -59,7 +59,7 @@ const TestimonialsCarousel = () => {
               <img
                 src={testimonial.image}
                 alt={testimonial.name}
-                className="w-16 h-16 rounded-full mb-4"
+                className="w-16 h-16 rounded-full mb-4 object-center object-cover"
               />
               <h4 className="font-bold text-lg">{testimonial.name}</h4>
               <p className="text-sm text-gray-500">{testimonial.location}</p>
