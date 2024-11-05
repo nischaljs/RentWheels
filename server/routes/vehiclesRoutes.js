@@ -11,9 +11,27 @@ const getVehicleFilter = (req) => {
     return { available: true}; 
 };
 
+
+const searchAvailableVehicles = (req) => {
+    const { search = '' } = req.query;
+
+    const filter = { available: true };
+
+    if (search) {
+        filter.OR = [
+            { name: { contains: search } },
+            { type: { contains: search } }
+        ];
+    }
+    console.log(filter);
+    return filter;
+
+};
+
+  
 // Public route to search vehicles
-router.get('/available',paginatedResults('Vehicle',getVehicleFilter), vehicleController.getAvailableVehicles);
-router.get('/search',paginatedResults('Vehicle',getVehicleFilter), vehicleController.searchVehicles);
+router.get('/available', paginatedResults('Vehicle', searchAvailableVehicles), vehicleController.getAvailableVehicles);
+router.get('/search', vehicleController.searchVehicles);
 router.get('/:id', vehicleController.getVehicle);
 
 // Protected routes 

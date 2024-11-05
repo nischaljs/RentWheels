@@ -50,7 +50,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b mt-10 from-gray-50 to-white px-6 py-12">
+    <div className=" bg-gradient-to-b mt-10 from-gray-50 to-white px-6 py-12">
       {/* Header Section */}
       <div className="max-w-7xl mx-auto mb-16 text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">

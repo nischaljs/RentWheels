@@ -4,11 +4,11 @@ import CarCard from './CarCard';
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
-const CarsGrid = () => {
+const CarsGrid = ({searchQuery}) => {
   const [cars, setCars] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const carsPerPage = 6; // Number of cars to fetch per page
+  const carsPerPage = 6; 
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -16,21 +16,23 @@ const CarsGrid = () => {
         const response = await axios.get(`${baseUrl}/vehicles/available`, {
           params: {
             page: currentPage,
-            limit: carsPerPage, // Number of cars per page
+            limit: carsPerPage,
+            search: searchQuery, 
           },
         });
 
+        console.log(response.data);
+
         const { data, paginationDetails } = response.data;
         setCars(data);
-        
-        setTotalPages(Math.ceil(paginationDetails.total / carsPerPage)); // Calculate total pages based on backend response
+        setTotalPages(Math.ceil(paginationDetails.total / carsPerPage));
       } catch (error) {
         console.error('Error fetching cars:', error);
       }
     };
 
     fetchCars();
-  }, [currentPage]); // Re-fetch cars when currentPage changes
+  }, [currentPage, searchQuery]);// Re-fetch cars when currentPage changes
 
   // Pagination handlers
   const handleNextPage = () => {

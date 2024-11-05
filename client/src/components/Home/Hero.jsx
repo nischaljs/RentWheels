@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Search, Car, ArrowRight } from 'lucide-react';
 
-const Hero = () => {
+const Hero = ({onSearch}) => {
+  const [query, setQuery] = useState('');
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    onSearch(query); // Pass the query to Home component
+  };
+
   return (
     <section className="relative bg-[url('https://www.teammazda.com/blogs/2097/wp-content/uploads/2018/08/Screen-Shot-2018-08-21-at-10.18.21-AM.png')] bg-cover bg-center h-screen flex items-center justify-center">
       {/* Overlay for better text visibility */}
@@ -32,7 +39,7 @@ const Hero = () => {
 
           {/* Sign Up Button */}
           <a
-            href="/signup"
+            href="/vehicles"
             className="flex items-center px-6 py-3 bg-gray-100 text-gray-900 rounded-full shadow-lg hover:bg-gray-200 transition duration-300"
           >
             <ArrowRight className="mr-2 w-5 h-5" />
@@ -42,12 +49,16 @@ const Hero = () => {
 
         {/* Search Bar (optional) */}
         <div className="mt-10">
-          <form className="bg-white rounded-full shadow-lg flex items-center max-w-lg mx-auto px-4 py-2">
+          <form 
+          className="bg-white rounded-full shadow-lg flex items-center max-w-lg mx-auto px-4 py-2"
+          onSubmit={handleSearchSubmit}
+          >
             <Search className="text-gray-500 w-6 h-6" />
             <input
               type="text"
               className="w-full p-2 bg-transparent outline-none text-gray-700 placeholder-gray-500"
               placeholder="Search your ride..."
+              onChange={(e) => setQuery(e.target.value)}
             />
           </form>
         </div>

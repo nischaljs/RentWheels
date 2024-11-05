@@ -5,16 +5,16 @@ const { handleErrors } = require('../middlewares/errorHandler');
 
 exports.getAvailableVehicles = async (req, res) => {
   try {
-    // Call the service to get available vehicles
-    const availableVehicles = await vehicleService.getAvailableVehicles();
-    
-    res.status(200).json({
-      success: true,
-      paginationDetails :req.paginatedResults,
-      data: availableVehicles,
-    });
+      // Directly use the paginated results from the middleware
+      const { results, page, limit, total } = req.paginatedResults;
+
+      res.status(200).json({
+          success: true,
+          paginationDetails: { page, limit, total },
+          data: results, // Use the paginated results
+      });
   } catch (error) {
-    handleErrors(res, error);
+      handleErrors(res, error);
   }
 };
 

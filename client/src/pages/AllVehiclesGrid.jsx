@@ -68,7 +68,7 @@ const AllVehiclesGrid = () => {
       <div className="text-center mb-10">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Available Vehicles</h2>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Explore our collection of vehicles available for your next journey
+          Explore our collection of premium vehicles available for your next journey
         </p>
       </div>
 
