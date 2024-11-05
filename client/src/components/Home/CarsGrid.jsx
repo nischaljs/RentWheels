@@ -21,7 +21,6 @@ const CarsGrid = ({searchQuery}) => {
           },
         });
 
-        console.log(response.data);
 
         const { data, paginationDetails } = response.data;
         setCars(data);

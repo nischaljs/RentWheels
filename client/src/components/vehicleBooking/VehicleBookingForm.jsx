@@ -249,15 +249,6 @@ const VehicleBookingForm = ({ onClose, vehicle, vehicleId }) => {
         try{
             setLoading(true);
             
-            console.log(" these are the things being sent " +JSON.stringify(
-                {
-                    vehicleId,
-                    startTime: bookingData.startTime,
-                    endTime: bookingData.endTime,
-                    startDate: new Date(`${bookingData.startDate.toDateString()} ${bookingData.startTime}`),
-                    endDate: new Date(`${bookingData.endDate.toDateString()} ${bookingData.endTime}`)
-                }
-            ))
                 const response = await api.post('/availability/check',{
                 vehicleId,
                 startTime: bookingData.startTime,
@@ -266,7 +257,7 @@ const VehicleBookingForm = ({ onClose, vehicle, vehicleId }) => {
                 endDate: new Date(`${bookingData.endDate.toDateString()} ${bookingData.endTime}`)
             })
 
-            console.log("reponse is"+ JSON.stringify(response.data));
+          
 
             if(!response.data.isAvailable){
                 setError('Vehicle is not available for the selected dates');

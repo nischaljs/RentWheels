@@ -62,7 +62,6 @@ exports.getVehicle = async (vehicleId) => {
 
 
 exports.searchVehicles = async (query) => {
-    console.log(query);
 
     const dateObject = new Date(query.date);
     const isoDate = dateObject.toISOString().split('T')[0] + 'T00:00:00.000Z';

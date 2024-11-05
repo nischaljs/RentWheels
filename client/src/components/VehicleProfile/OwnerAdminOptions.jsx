@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { X, Trash2, AlertTriangle, Loader2, ShieldAlert, Car } from 'lucide-react';
 
 const OwnerAdminOptions = ({ user, vehicle }) => {
-    console.log(vehicle);
-    console.log(user);
     const [isApproving, setIsApproving] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [showDeleteWarning, setShowDeleteWarning] = useState(false);
