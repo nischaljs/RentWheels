@@ -1,133 +1,139 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { Search, Calendar, Clock } from 'lucide-react';
+import api from '../services/api';
 import CarCard from '../components/Home/CarCard';
-import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
-const baseUrl = import.meta.env.VITE_API_URL;
-
-const AllVehiclesGrid = () => {
-  const [cars, setCars] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(true);
+const VehicleSearch = () => {
+  const [searchParams, setSearchParams] = useState({
+    date: '',
+    timeFrom: '',
+    timeTo: '',
+  });
+  const [vehicles, setVehicles] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const carsPerPage = 6;
 
   useEffect(() => {
-    const fetchCars = async () => {
+    const fetchInitialData = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get(`${baseUrl}/vehicles/available`, {
-          params: {
-            page: currentPage,
-            limit: carsPerPage,
-          },
-        });
-        const { data, paginationDetails } = response.data;
-        setCars(data);
-        setTotalPages(Math.ceil(paginationDetails.total / carsPerPage));
-      } catch (error) {
-        console.error('Error fetching cars:', error);
-        setError('Failed to load vehicles. Please try again later.');
-      } finally {
+        const response = await api.get('/vehicles/available');
+        setVehicles(response.data.data);
+      }
+      catch (error) {
+        console.error('Failed to fetch vehicles:', error);
+        setError('Failed to fetch vehicles. Please try again.');
+      }
+      finally {
         setLoading(false);
       }
-    };
-    fetchCars();
-  }, [currentPage]);
+    }
+    fetchInitialData();
+    },[]);
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await api.get(`/vehicles/search`, {
+        params: {
+          date: searchParams.date,
+          timeFrom: searchParams.timeFrom,
+          timeTo: searchParams.timeTo
+        }
+      });
+      console.log(response.data);
+      setVehicles(response.data.data);
+    } catch (error) {
+      console.error('Search error:', error);
+      setError('Failed to search vehicles. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
-  if (error) {
-    return (
-      <div className="min-h-[400px] flex items-center justify-center">
-        <div className="text-center p-6 max-w-md mx-auto">
-          <div className="text-red-500 text-lg font-medium mb-2">Oops!</div>
-          <p className="text-gray-600">{error}</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className="max-w-7xl mx-auto mt-10 px-4 sm:px-6 lg:px-8 py-12" id="vehicles">
-      {/* Section Header */}
-      <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Available Vehicles</h2>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          Explore our collection of premium vehicles available for your next journey
-        </p>
+    <div className="max-w-7xl mt-10 mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Search Form */}
+      <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <form onSubmit={handleSearch} className="space-y-4 sm:space-y-0 sm:flex sm:space-x-4">
+          <div className="flex-1">
+            <div className="relative">
+              <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <input
+                type="date"
+                value={searchParams.date}
+                onChange={(e) => setSearchParams({ ...searchParams, date: e.target.value })}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="flex-1">
+            <div className="relative">
+              <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <input
+                type="time"
+                value={searchParams.timeFrom}
+                onChange={(e) => setSearchParams({ ...searchParams, timeFrom: e.target.value })}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="flex-1">
+            <div className="relative">
+              <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <input
+                type="time"
+                value={searchParams.timeTo}
+                onChange={(e) => setSearchParams({ ...searchParams, timeTo: e.target.value })}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full sm:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+          >
+            <Search className="h-5 w-5 inline-block mr-2" />
+            Search
+          </button>
+        </form>
       </div>
 
+      {/* Results Section */}
       {loading ? (
         <div className="min-h-[400px] flex items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
         </div>
-      ) : (
-        <>
-          {/* Cars Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {cars.map((car) => (
-              <div key={car.id} className="transform transition duration-300 hover:-translate-y-1">
-                <CarCard car={car} />
-              </div>
-            ))}
-          </div>
-
-          {/* Pagination Controls */}
-          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6 mt-8">
-            {/* Previous Button */}
-            <button
-              onClick={handlePreviousPage}
-              disabled={currentPage === 1}
-              className="flex items-center px-6 py-3 border border-gray-300 rounded-full text-sm font-medium transition-all duration-200 
-                       disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent
-                       hover:bg-gray-50 hover:border-gray-400 disabled:hover:border-gray-300"
-            >
-              <ChevronLeft className="h-4 w-4 mr-2" />
-              Previous
-            </button>
-
-            {/* Page Info */}
-            <div className="flex items-center space-x-2 text-sm">
-              <span className="px-4 py-2 rounded-lg bg-gray-100 font-medium text-gray-700">
-                {currentPage}
-              </span>
-              <span className="text-gray-500">of</span>
-              <span className="px-4 py-2 rounded-lg bg-gray-100 font-medium text-gray-700">
-                {totalPages}
-              </span>
+      ) : error ? (
+        <div className="text-center text-red-500 py-8">{error}</div>
+      ) : vehicles.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {vehicles.map((vehicle) => (
+            <div key={vehicle.id} className="transform transition duration-300 hover:-translate-y-1">
+              <CarCard car={vehicle} />
             </div>
-
-            {/* Next Button */}
-            <button
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              className="flex items-center px-6 py-3 border border-gray-300 rounded-full text-sm font-medium transition-all duration-200
-                       disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent
-                       hover:bg-gray-50 hover:border-gray-400 disabled:hover:border-gray-300"
-            >
-              Next
-              <ChevronRight className="h-4 w-4 ml-2" />
-            </button>
-          </div>
-        </>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center text-gray-500 py-8">
+          {searchParams.date ? 'No vehicles available for the selected time slot.' : 'Search for available vehicles by selecting date and time.'}
+        </div>
       )}
     </div>
   );
 };
 
-export default AllVehiclesGrid;
+export default VehicleSearch;

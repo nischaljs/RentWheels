@@ -62,22 +62,42 @@ exports.getVehicle = async (vehicleId) => {
 
 
 exports.searchVehicles = async (query) => {
-    return await prisma.vehicle.findMany({
-        where: {
-            
-            availability: {
-                some: {
-                    day: query.day,
-                    timeFrom: { lte: query.timeFrom },
-                    timeTo: { gte: query.timeTo }
+    console.log(query);
+
+    const dateObject = new Date(query.date);
+    const isoDate = dateObject.toISOString().split('T')[0] + 'T00:00:00.000Z';
+    const enteredDayOfWeek = dateObject.toLocaleDateString('en-US', { weekday: 'long' });
+
+    try {
+        const vehicles = await prisma.vehicle.findMany({
+            where: {
+                availabilitySlots: {
+                    some: {
+                        OR: [
+                            // Non-recurring slot with a specific date
+                            {
+                                recurring: false,
+                                specificDate: isoDate,
+                            },
+                            // Recurring slot with a dayOfWeek string that includes the entered day
+                            {
+                                recurring: true,
+                                dayOfWeek: { contains: `"${enteredDayOfWeek}"` }, // Use contains to check if dayOfWeek includes the entered day
+                            }
+                        ]
+                    }
                 }
+            },
+            include: {
+                owner: true
             }
-        },
-        include: {
-            owner: true,
-            availability: true
-        }
-    });
+        });
+
+        return vehicles;
+    } catch (error) {
+        console.error("Error fetching vehicles:", error);
+        throw error;
+    }
 };
 
 // Service to update vehicle details

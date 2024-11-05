@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Global/Navbar';
 import Hero from '../components/Home/Hero';
-import FilterSidebar from '../components/Home/FilterSidebar';
 import CarsGrid from '../components/Home/CarsGrid';
 import WhyChooseUs from '../components/Home/WhyChooseUs';
 import TestimonialsCarousel from '../components/Home/TestimonialsCarousel';
