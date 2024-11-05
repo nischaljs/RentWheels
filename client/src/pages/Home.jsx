@@ -29,22 +29,15 @@ const Home = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 lg:px-8 -mt-16 relative z-10">
         <div className="bg-white rounded-xl shadow-lg p-6 mb-12">
-          <div className="flex flex-col lg:flex-row gap-8">
-            {!searchQuery && (
-              <div className="hidden lg:block lg:w-1/4">
-                <div className="sticky top-24">
-                  <FilterSidebar />
-                </div>
-              </div>
-            )}
-            <div className="w-full lg:w-3/4">
+          
+            <div className="w-full">
               <div className="mb-6">
                 <h2 className="text-2xl font-bold text-gray-800">Available Vehicles</h2>
                 <p className="text-gray-600">Find your perfect rental from our premium selection</p>
               </div>
               <CarsGrid searchQuery={searchQuery} /> {/* Pass searchQuery as prop */}
             </div>
-          </div>
+
         </div>
         {/* Other sections */}
         <WhyChooseUs />
