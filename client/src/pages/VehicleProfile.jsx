@@ -86,7 +86,7 @@ const VehicleProfile = () => {
 
           <div className="lg:col-span-4 mt-6 lg:mt-0">
             <div className="lg:sticky lg:top-28">
-              {User.role === 'USER' ? (<VehicleProfileBookingWidget />) : (<OwnerAdminOptions user={user} vehicle={vehicle} />)}
+              {user.role === 'USER' ? (<VehicleProfileBookingWidget vehicle={vehicle} />) : (<OwnerAdminOptions user={user} vehicle={vehicle} />)}
 
             </div>
           </div>
