@@ -8,7 +8,7 @@
 
 ## User
 - **Full Name:** Utshav Satyal
-- **Email:** user@rentwheels.com
+- **Email:** user@rentwheels.com   ?? user10@gmail.com
 - **Password:** UserPass2@
 - **Phone:** 9800000001
 

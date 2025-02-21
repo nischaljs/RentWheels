@@ -101,17 +101,14 @@ exports.searchVehicles = async (query) => {
 
 // Service to update vehicle details
 exports.updateVehicle = async (vehicleId, vehicleData) => {
-    const pricePerDay = parseFloat(vehicleData.pricePerDay);
     return await prisma.vehicle.update({
-        where: {
-            id: vehicleId
-        },
+        where: { id: vehicleId },
         data: {
             name: vehicleData.name,
-            seats: vehicleData.seats,
+            seater: parseInt(vehicleData.seater),         // changed field from 'seats'
             transmission: vehicleData.transmission,
-            vehicleType: vehicleData.vehicleType,
-            pricePerDay: pricePerDay,
+            type: vehicleData.type,                           // changed field from 'vehicleType'
+            pricePerDay: parseFloat(vehicleData.pricePerDay), // ensure price is a float
             driverAvailable: vehicleData.driverAvailable,
         }
     });
@@ -146,7 +143,7 @@ exports.updateVehicleAvailability = async (vehicleId) => {
 };
 
 //get all bookings of a vehicle 
-exports.getVehicleWithBookings = async (vehicleId) => {
+exports.getVehicleBookings = async (vehicleId) => {
     return await prisma.vehicle.findUnique({
         where: {
             id: vehicleId
@@ -158,4 +155,3 @@ exports.getVehicleWithBookings = async (vehicleId) => {
 };
 
 
-  

@@ -8,11 +8,11 @@ const UserPaymentForm = ({ vehicleId, bookingData, onClose, vehicle }) => {
     const [error, setError] = useState(null);
     const {user} = useAuth();
 
-    // Calculate total hours
+    // Calculate total hours using Date objects (wrap bookingData.startDate, etc.)
     const totalHours = bookingData.startDate && bookingData.endDate ?
         Math.ceil(
-            (new Date(`${bookingData.endDate.toDateString()} ${bookingData.endTime}`) -
-                new Date(`${bookingData.startDate.toDateString()} ${bookingData.startTime}`)) /
+            (new Date(`${new Date(bookingData.endDate).toDateString()} ${bookingData.endTime}`) -
+             new Date(`${new Date(bookingData.startDate).toDateString()} ${bookingData.startTime}`)) /
             (1000 * 60 * 60)
         ) : 0;
 

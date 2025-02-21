@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 import AdminUserManagement from '../components/AdminDashboard/AdminUserManagement';
 import AdminVehicleManagement from '../components/AdminDashboard/AdminVehicleManagement';
 import AdminBookingManagement from '../components/AdminDashboard/AdminBookingManagement';
 import AdminDashboardStats from '../components/AdminDashboard/AdminDashboardStats';
+import CreateAdmin from '../components/AdminDashboard/CreateAdmin';
+import ChangePassword from '../components/AdminDashboard/ChangePassword';
 
 const AdminDashboard = () => {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('users');
 
   const tabs = [
@@ -12,6 +16,15 @@ const AdminDashboard = () => {
     { id: 'vehicles', label: 'Vehicles', component: AdminVehicleManagement },
     { id: 'bookings', label: 'Bookings', component: AdminBookingManagement },
   ];
+
+  // Only superadmin can see extra options
+  console.log(user?.role)
+  if (user?.role === 'ADMIN') {
+    tabs.push(
+      { id: 'createAdmin', label: 'Create Admin', component: CreateAdmin },
+      { id: 'account', label: 'Account', component: ChangePassword }
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50/50 p-6 space-y-6">
@@ -40,7 +53,7 @@ const AdminDashboard = () => {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`relative px-4 py-2 text-sm font-medium rounded-t-md transition-colors duration-200 ease-out
-          ${activeTab === tab.id
+                ${activeTab === tab.id
                   ? 'text-blue-600 bg-white border-t-2 border-l-2 border-r-2 border-blue-500'
                   : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
                 }`}
@@ -69,8 +82,6 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
-
-
     </div>
   );
 };

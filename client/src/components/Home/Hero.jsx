@@ -10,7 +10,7 @@ const Hero = ({onSearch}) => {
   };
 
   return (
-    <section className="relative bg-[url('https://www.teammazda.com/blogs/2097/wp-content/uploads/2018/08/Screen-Shot-2018-08-21-at-10.18.21-AM.png')] bg-cover bg-center h-screen flex items-center justify-center">
+    <section className="relative bg-[url('home.png')] bg-cover bg-center h-screen flex items-center justify-center">
       {/* Overlay for better text visibility */}
       <div className="absolute inset-0 bg-black opacity-50"></div>
 

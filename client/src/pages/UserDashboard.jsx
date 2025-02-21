@@ -5,6 +5,7 @@ import UsersRentals from '../components/userDashboard/UsersRentals';
 import UserPaymentInformation from '../components/userDashboard/UserPaymentInformation';
 import UserReviewAndRatings from '../components/userDashboard/UserReviewAndRatings';
 import { useAuth } from '../context/AuthContext';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 const DashboardCard = ({ children, className = '' }) => (
   <div className={`bg-white rounded-lg shadow-sm p-6 ${className}`}>
@@ -41,7 +42,9 @@ const UserDashboard = () => {
 
           {/* Payment Information and Reviews */}
           <DashboardCard className="lg:col-span-3 space-y-8">
-            <UserPaymentInformation payment={user.Payment[user.Payment.length - 1]} />
+            <ErrorBoundary>
+              <UserPaymentInformation payment={user.Payment[user.Payment.length - 1]} />
+            </ErrorBoundary>
           </DashboardCard>
           
           <DashboardCard className="lg:col-span-3 space-y-8">

@@ -12,7 +12,9 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 const UserPaymentInformation = ({ payment }) => {
+  const paymentInfo = payment;
   const navigate = useNavigate();
+
   // Helper function to format date
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -55,9 +57,7 @@ const UserPaymentInformation = ({ payment }) => {
     };
   };
 
-  
-  // Handle cases when no payment is available
-  if (!payment) {
+  if (!paymentInfo) {
     return (
       <div className="bg-white rounded-lg p-6 flex flex-col items-center text-gray-500">
         <CreditCard className="w-10 h-10 mb-4 text-gray-400" />
@@ -66,7 +66,9 @@ const UserPaymentInformation = ({ payment }) => {
     );
   }
 
-  const statusConfig = getStatusConfig(payment.status);
+  // Safely access card number with null check
+  const lastFourDigits = paymentInfo?.cardNumber ? paymentInfo.cardNumber.slice(-4) : 'XXXX';
+  const statusConfig = getStatusConfig(paymentInfo.status);
   const StatusIcon = statusConfig.icon;
 
   return (
@@ -88,7 +90,7 @@ const UserPaymentInformation = ({ payment }) => {
       </div>
       {/* Payment Details */}
       <div className="p-6">
-        <div className="text-3xl font-bold text-gray-900">रु. {payment.amount.toFixed(2)}</div>
+        <div className="text-3xl font-bold text-gray-900">रु. {paymentInfo.amount.toFixed(2)}</div>
         <p className="text-sm text-gray-500 mt-1">Total Amount</p>
 
         {/* Details Grid */}
@@ -98,13 +100,13 @@ const UserPaymentInformation = ({ payment }) => {
             <div>
               <div className="text-sm font-medium text-gray-500 mb-1">Transaction ID</div>
               <code className="text-sm bg-gray-50 px-2 py-1 rounded">
-                {payment.transactionId.substring(0, 12)}...
+                {paymentInfo.transactionId ? `${paymentInfo.transactionId.substring(0, 12)}...` : "N/A"}
               </code>
             </div>
 
             <div>
               <div className="text-sm font-medium text-gray-500 mb-1">Booking ID</div>
-              <div className="text-sm text-gray-900">#{payment.bookingId}</div>
+              <div className="text-sm text-gray-900">#{paymentInfo.bookingId}</div>
             </div>
           </div>
 
@@ -114,7 +116,7 @@ const UserPaymentInformation = ({ payment }) => {
               <div className="text-sm font-medium text-gray-500 mb-1">Created At</div>
               <div className="flex items-center text-sm text-gray-900">
                 <Calendar className="w-4 h-4 mr-2 text-gray-400" />
-                {formatDate(payment.createdAt)}
+                {formatDate(paymentInfo.createdAt)}
               </div>
             </div>
 
@@ -122,19 +124,20 @@ const UserPaymentInformation = ({ payment }) => {
               <div className="text-sm font-medium text-gray-500 mb-1">Last Updated</div>
               <div className="flex items-center text-sm text-gray-900">
                 <Clock className="w-4 h-4 mr-2 text-gray-400" />
-                {formatDate(payment.updatedAt)}
+                {formatDate(paymentInfo.updatedAt)}
               </div>
             </div>
           </div>
         </div>
+        <p>Card ending in: {lastFourDigits}</p>
       </div>
       <button
-              onClick={() => navigate('/paymentdetails')}
-              className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 transition-colors"
-            >
-              <span>View All Payments History</span>
-              <ExternalLink className="w-4 h-4" />
-            </button>
+        onClick={() => navigate('/paymentdetails')}
+        className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 transition-colors p-6"
+      >
+        <span>View All Payments History</span>
+        <ExternalLink className="w-4 h-4" />
+      </button>
     </div>
   );
 };

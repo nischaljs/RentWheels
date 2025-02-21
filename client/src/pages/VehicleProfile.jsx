@@ -83,11 +83,19 @@ const VehicleProfile = () => {
           </div>
 
           {/* Booking Widget - Fixed on Desktop */}
-
           <div className="lg:col-span-4 mt-6 lg:mt-0">
             <div className="lg:sticky lg:top-28">
-              {user.role === 'USER' ? (<VehicleProfileBookingWidget vehicle={vehicle} />) : (<OwnerAdminOptions user={user} vehicle={vehicle} />)}
-
+              {user ? (
+                user.role === 'USER' ? (
+                  <VehicleProfileBookingWidget vehicle={vehicle} />
+                ) : (
+                  <OwnerAdminOptions user={user} vehicle={vehicle} />
+                )
+              ) : (
+                <div className="p-4 bg-yellow-50 text-yellow-800 text-center rounded-lg">
+                  Please log in to access booking options.
+                </div>
+              )}
             </div>
           </div>
         </div>

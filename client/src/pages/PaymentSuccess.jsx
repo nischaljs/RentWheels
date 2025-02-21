@@ -13,15 +13,15 @@ const PaymentSuccess = () => {
 
 
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', {
+    return new Date(dateString).toLocaleDateString('en-US', {
       weekday: 'short', // Mon, Tue, etc.
       month: 'short',   // Jan, Feb, etc.
       day: 'numeric',   // 1, 2, etc.
       hour: 'numeric',  // 1, 2, etc.
       minute: '2-digit', // 01, 02, etc.
-      hour12: true      // AM/PM
-    }).format(date);
+      hour12: true,      // AM/PM
+      year: 'numeric',
+    });
   };
   
 
@@ -145,14 +145,14 @@ const PaymentSuccess = () => {
                 <Calendar className="w-4 h-4" />
                 <span>Start Date</span>
               </div>
-              <p className="font-medium">{formatDate(startDate)}</p>
+              <p className="font-medium">{formatDate(new Date(startDate))}</p> {/* wrapped in new Date */}
             </div>
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-sm text-gray-500">
                 <Calendar className="w-4 h-4" />
                 <span>End Date</span>
               </div>
-              <p className="font-medium">{formatDate(endDate)}</p>
+              <p className="font-medium">{formatDate(new Date(endDate))}</p> {/* wrapped in new Date */}
             </div>
             <div className="col-span-2 space-y-1">
               <div className="flex items-center gap-2 text-sm text-gray-500">
