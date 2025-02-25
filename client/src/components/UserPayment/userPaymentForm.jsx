@@ -147,7 +147,7 @@ const UserPaymentForm = ({ vehicleId, bookingData, onClose, vehicle }) => {
                     </div>
                     <div className="flex justify-between">
                         <span className="text-gray-600">Rate</span>
-                        <span className="font-medium">Rs. {vehicle.pricePerDay} per day</span>
+                        <span className="font-medium">Rs. {Math.ceil(hourlyRate)} per hour</span>
                     </div>
                     <div className="flex justify-between">
                         <span className="text-gray-600">Duration</span>
