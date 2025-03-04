@@ -27,10 +27,90 @@ RentWheels is a multivendor vehicle renting platform where users can rent vehicl
 - **Owner**: Lists vehicles for rent
 - **Superadmin**: Verifies owners and manages the platform
 
-## Developers
+## How to Run Locally
 
-- [Nischal Bhattarai - backend & db](https://github.com/nischal108)
-- [Utshav Satyal - frontend](https://github.com/Utsav8520)
+To run the project locally, follow these steps:
+
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/nischaljs/RentWheels.git
+    ```
+
+2. Navigate to the project directory:
+    ```sh
+    cd RentWheels
+    ```
+
+3. Install dependencies for the backend:
+    ```sh
+    cd server
+    npm install
+    ```
+
+4. Install dependencies for the frontend:
+    ```sh
+    cd ../client
+    npm install
+    ```
+
+5. Set up environment variables:
+    - Create a `.env` file in the `server` directory and add the necessary environment variables. See `.env.example` for reference.
+    - Create a `.env` file in the `client` directory and add the necessary environment variables. See `.env.example` for reference.
+
+6. Run the backend server:
+    ```sh
+    cd ../server
+    npm start
+    ```
+
+7. Run the frontend development server:
+    ```sh
+    cd ../client
+    npm run dev
+    ```
+
+8. Open your browser and navigate to `http://localhost:3000` to see the application running.
+
+## Screenshots
+ Homepage:
+ ![Homepage](screenshots/image.png)
+
+ Vehicle Search Page:
+ ![Vehicle Search Page](screenshots/searchPage.png)
+
+ Login/ Signup Page:              
+ ![Login Page](screenshots/login.png)    ![signup page](screenshots/signup.png)
+
+ User/Customer Dashboard:
+ ![Customer Dashboard](screenshots/customerdashboard.png)
+
+ Vehicle Profile Page:
+ ![Vehicle Profile Page](screenshots/vehicleProfile.png) ![review tab](screenshots/bookingtab.png)   ![review tab](screenshots/reviewtab.png)
+
+ ![Booking Widget](screenshots/bookingwidgets.png)
+ ![Booking confiramtion](screenshots/bookingConfirmation.png)
+ ![Payment Khalti](screenshots/khalti.png)
+ ![payment Receipt](screenshots/receipt.png)
+
+User Payment History Page :
+![Payment History](screenshots/paymentHistory.png)
+
+
+Owners Dashboard:
+![Owner Dashboard](screenshots/ownerDashboard.png)
+
+![Upload Document widget](screenshots/docUpload.png)    
+![Add availability Widget](screenshots/availabilitywidget.png)
+
+![Bookings of Vehicles](screenshots/bookings.png)
+
+![Reviews of Vehicles](screenshots/reviewsVehicles.png)
+
+![Upload Vehicle Widget](screenshots/vehicleUpload.png)
+
+Admin Dashboard
+![Admin Dashboard](screenshots/admin.png)
+
 
 
 
