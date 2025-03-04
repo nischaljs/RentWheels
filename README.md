@@ -1,3 +1,5 @@
+## Scroll down to see the screenshots of the web app
+
 # RentWheels
 
 RentWheels is a multivendor vehicle renting platform where users can rent vehicles, and owners can list their vehicles for rent. The platform features user registration and authentication, booking system, payment gateway integration using Khalti e-wallet, reviews and ratings, and an admin panel for managing the platform.
