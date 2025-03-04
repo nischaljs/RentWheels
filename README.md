@@ -1,4 +1,4 @@
-## Scroll down to see the screenshots of the web app
+## [Scroll down to see the screenshots of the web app](#screenshots)
 
 # RentWheels
 
@@ -78,30 +78,31 @@ To run the project locally, follow these steps:
 
 9. Open your browser and navigate to `http://localhost:3000` to see the application running.
 
+## [Documentation](documentation.pdf)
+
 ## Screenshots
- Homepage:
- ![Homepage](screenshots/image.png)
+Homepage:
+![Homepage](screenshots/image.png)
 
- Vehicle Search Page:
- ![Vehicle Search Page](screenshots/searchPage.png)
+Vehicle Search Page:
+![Vehicle Search Page](screenshots/searchPage.png)
 
- Login/ Signup Page:              
- ![Login Page](screenshots/login.png)    ![signup page](screenshots/signup.png)
+Login/ Signup Page:              
+![Login Page](screenshots/login.png)    ![signup page](screenshots/signup.png)
 
- User/Customer Dashboard:
- ![Customer Dashboard](screenshots/customerdashboard.png)
+User/Customer Dashboard:
+![Customer Dashboard](screenshots/customerdashboard.png)
 
- Vehicle Profile Page:
- ![Vehicle Profile Page](screenshots/vehicleProfile.png) ![review tab](screenshots/bookingtab.png)   ![review tab](screenshots/reviewtab.png)
+Vehicle Profile Page:
+![Vehicle Profile Page](screenshots/vehicleProfile.png) ![review tab](screenshots/bookingtab.png)   ![review tab](screenshots/reviewtab.png)
 
- ![Booking Widget](screenshots/bookingwidgets.png)
- ![Booking confiramtion](screenshots/bookingConfirmation.png)
- ![Payment Khalti](screenshots/khalti.png)
- ![payment Receipt](screenshots/receipt.png)
+![Booking Widget](screenshots/bookingwidgets.png)
+![Booking confiramtion](screenshots/bookingConfirmation.png)
+![Payment Khalti](screenshots/khalti.png)
+![payment Receipt](screenshots/receipt.png)
 
 User Payment History Page :
 ![Payment History](screenshots/paymentHistory.png)
-
 
 Owners Dashboard:
 ![Owner Dashboard](screenshots/ownerDashboard.png)
