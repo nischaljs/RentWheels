@@ -59,19 +59,24 @@ To run the project locally, follow these steps:
     - Create a `.env` file in the `server` directory and add the necessary environment variables. See `.env.example` for reference.
     - Create a `.env` file in the `client` directory and add the necessary environment variables. See `.env.example` for reference.
 
-6. Run the backend server:
+6. Migrate the database schema:
     ```sh
     cd ../server
+    npx prisma migrate dev
+    ```
+
+7. Run the backend server:
+    ```sh
     npm start
     ```
 
-7. Run the frontend development server:
+8. Run the frontend development server:
     ```sh
     cd ../client
     npm run dev
     ```
 
-8. Open your browser and navigate to `http://localhost:3000` to see the application running.
+9. Open your browser and navigate to `http://localhost:3000` to see the application running.
 
 ## Screenshots
  Homepage:
